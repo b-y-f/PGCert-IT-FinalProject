@@ -3,13 +3,14 @@
 
 # PGCertIT Final Project - A Personal Blogging System
 
-**TODO:** Include some information about your team's project within this README. The following information must be included:
+ Include some information about your team's project within this README. The following information must be included:
 
-- Team name
+- Team name : Bill
 
 - Website URL on the course server (trex-sandwich)
 
-- A list of your extra features
+- A list of your extra features 
+1. 
 
 - Are there any special setup instructions, beyond initializing the database and running your servlet project?
 
