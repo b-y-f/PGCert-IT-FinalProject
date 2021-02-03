@@ -1,0 +1,18 @@
+<div class="post-blog ">
+
+    <form class="container bg-light mt-3 rounded" action="/{{edit}}" method="post">
+
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" value="{{title}}" name="postTitle">
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">Content</label>
+            <textarea class="form-control" id="content" rows="5" name="postContent">{{content}}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    </form>
+
+</div>

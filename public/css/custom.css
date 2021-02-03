@@ -1,0 +1,68 @@
+/*for Login/signup*/
+.form-sign {
+    width: 100%;
+    max-width: 330px;
+    padding: 25px;
+    margin: auto;
+    box-shadow: 1px 1px 3px black;
+}
+.form-sign .checkbox {
+    font-weight: 400;
+}
+.form-sign .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-sign .form-control:focus {
+    z-index: 2;
+}
+.form-sign input[type="username"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-sign input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/*user avatar re-size*/
+.user-avatar{
+    width: 50px;
+}
+.user-avatar-nav{
+    width: 30px;
+    display: inline;
+}
+
+/* hoverable nav bar */
+@media all and (min-width: 992px) {
+    .navbar .nav-item .dropdown-menu{ display: none; }
+    .navbar .nav-item:hover .nav-link{ color: #fff;  }
+    .navbar .nav-item:hover .dropdown-menu{ display: block; }
+    .navbar .nav-item .dropdown-menu{ margin-top:0; }
+    .dropdown-menu{transform: translateX(-20px);}
+}
+
+/* portfolio setting form */
+.portfolio{
+    width: 500px;
+}
+/* avatar selector*/
+.avatars > input{
+    display: none;
+}
+
+.avatars > input + img{
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.avatars > input:checked + img{
+    border: 2px solid yellowgreen;
+}
+

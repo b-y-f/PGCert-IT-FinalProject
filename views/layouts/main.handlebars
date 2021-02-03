@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="yifan Bao">
+    <link rel="shortcut icon" href="./images/websiteIcon.png">
+
+
+    <title>Blog</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            crossorigin="anonymous"></script>
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="./css/custom.css">
+
+
+</head>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
+    <div class="container-fluid">
+
+        <a class="navbar-brand text-uppercase" href="/">Blog</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav  me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/">About</a>
+                </li>
+            </ul>
+
+
+            <!-- user information & account management-->
+            <ul class="d-flex navbar-nav">
+                {{#if isValidUser}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/createpost">+</a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <img class="user-avatar-nav" src="/images/avatars/{{avatar}}.png" alt="">
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" href="/edit-portfolio">Edit Portfolio</a></li>
+                                <li><a class="dropdown-item" href="/post-manager">Manage Posts</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Log out</a>
+                    </li>
+
+                {{else}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Log in</a>
+                    </li>
+
+                {{/if}}
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+
+<div id="page-content" class="container">
+    {{{body}}}
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<div class="signup-page mt-3">
+
+    <form class="form-sign text-center bg-light rounded" action="/signup" method="POST">
+        <h1 class="m-3">Welcome</h1>
+
+<!--        TODO check username-->
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control is-valid" id="username" name="username" required>
+            <div class="invalid-feedback"></div>
+
+
+        </div>
+        <div class="mb-3">
+            <label for="inputPassword" class="form-label">Password</label>
+            <input type="password" class="form-control" id="inputPassword" name="password" required>
+        </div>
+
+
+
+        <div class="mb-3">
+            <label for="reInputPassword" class="form-label">Re-Enter Password</label>
+            <input type="password" class="form-control" id="reInputPassword" required onkeyup='check();'>
+            <div id="notSamePassword" class="invalid-feedback">33</div>
+        </div>
+
+
+        <script>
+            let check = function() {
+                if (document.getElementById('inputPassword').value ===
+                        document.getElementById('reInputPassword').value) {
+                    document.getElementById('reInputPassword').className = 'form-control  is-valid';
+                    document.getElementById('inputPassword').className = 'form-control  is-valid';
+                } else {
+                    document.getElementById('reInputPassword').className = 'form-control  is-invalid';
+                    document.getElementById('inputPassword').className = 'form-control  is-invalid';
+                    document.getElementById('notSamePassword').innerText = 'Woops, password not match...'
+                }
+            }
+        </script>
+
+
+<!--    TODO better form of date selection -->
+        <div class="mb-3">
+            <label for="dateOfBirth" class="form-label">Date Of Birth</label>
+            <input type="date" class="form-control" id="dateOfBirth" name="dob" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="personalInfo" class="form-label">Description of yourself</label>
+            <textarea class="form-control" id="personalInfo" placeholder="I am Bill........" name="description"></textarea>
+        </div>
+
+
+
+
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="check2" required>
+            <label class="form-check-label" for="check2">I am a good person.</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>

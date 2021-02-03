@@ -1,0 +1,21 @@
+<div class="home-page container rounded">
+
+    {{#if message}}
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        <p>{{message}}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {{/if}}
+
+    {{#each posts}}
+
+        <div class="container bg-light p-5 rounded mt-3 rounded">
+            <!--    click into full text-->
+            <h1 class=""><a class="text-dark text-decoration-none" href="/fulltext?id={{id}}">{{title}}</a></h1>
+            <p class="lead">{{content}}</p>
+        </div>
+
+    {{/each}}
+
+
+</div>

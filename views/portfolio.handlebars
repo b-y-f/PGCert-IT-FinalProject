@@ -1,0 +1,72 @@
+<div class="portfolio bg-light mt-3 container">
+
+<!--    TODO update more user information -->
+    <form class="row" action="/set-portfolio" method="post">
+
+        <div class="mb-3">
+            <label for="nickname" class="form-label">Nickname</label>
+            <input type="text" class="form-control" id="nickname" placeholder="Bill">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" class="form-control" id="email" placeholder="123@domin.com" name="email">
+        </div>
+
+<!--        TODO user can select avatars and upload thier own-->
+        <div class="avatars mb-3">
+
+            <p>Please select your preferred avatar:</p>
+
+            <label class="avatars">
+                <input type="radio" name="avatar" value="default">
+                <img class="user-avatar" src="/images/avatars/default.png" alt="">
+            </label>
+
+            <label class="avatars">
+                <input type="radio" name="avatar" value="boy">
+                <img class="user-avatar" src="/images/avatars/boy.png" alt="">
+            </label>
+
+            <label class="avatars">
+                <input type="radio" name="avatar" value="man">
+                <img class="user-avatar" src="/images/avatars/man.png" alt="">
+            </label>
+
+            <label class="avatars">
+                <input type="radio" name="avatar" value="profile">
+                <img class="user-avatar" src="/images/avatars/profile.png" alt="">
+            </label>
+
+            <label class="avatars">
+                <input type="radio" name="avatar" value="student">
+                <img class="user-avatar" src="/images/avatars/student.png" alt="">
+            </label>
+
+            <form id="avatarUpload" action="/uploadimage" method="post" enctype="multipart/form-data">
+                <div class="form-group mb-3">
+                    <label for="formFile" class="form-label">Or upload your own avatar</label>
+                    <input class="form-control" type="file" id="formFile">
+                </div>
+
+            </form>
+<!--            TODO -->
+            <script>
+                document.getElementById("demo").innerHTML = "auto upload";
+            </script>
+
+
+
+        </div>
+
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Confirm detail</button>
+        </div>
+
+
+    </form>
+
+
+
+
+</div>
