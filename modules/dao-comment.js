@@ -11,7 +11,7 @@ async function createComment(comment){
 async function retrieveAllCommentsForPost(postId){
     const  db = await database;
     const result = db.query(
-        "select u.username, c.created_at,c.content,u.avatar  from userinfo as u, post_comment as c where c.poster_id = u.id and c.post_id = ?", [postId]
+        "select u.username, c.created_at,c.content,u.avatar  from userinfo as u, post_comment as c where c.poster_id = u.id and c.post_id = ? order by c.created_at desc ", [postId]
     );
     return result
 }

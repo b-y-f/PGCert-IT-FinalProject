@@ -53,6 +53,14 @@ async function getAvatarById(id){
     return result[0];
 }
 
+async function addMoreUserInfo(userDetail){
+
+    const db = await database;
+
+    await db.query("update userinfo set name = ?, email = ?, avatar = ? where id = ?",[userDetail.nickName, userDetail.email, userDetail.avatar, userDetail.userId]);
+
+}
+
 
 module.exports = {
     createUser,
@@ -60,5 +68,6 @@ module.exports = {
     deleteUser,
     retrieveAllUsers,
     getUserIdByUsername,
-    getAvatarById
+    getAvatarById,
+    addMoreUserInfo
 };

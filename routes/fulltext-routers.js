@@ -17,11 +17,38 @@ router.get('/fulltext', async (req, res) => {
 
     res.locals.comments = await commentDao.retrieveAllCommentsForPost(postId);
 
-    res.locals.post = await postDao.retrievePostById(postId);
+    //TODO make delete button and reply for each comment
 
+
+
+
+    // modify the datetime to a human readable format
+    const preFormat = await postDao.retrievePostById(postId);
+
+    const createTime = preFormat.created_at;
+    options = {
+        year: 'numeric', month: 'numeric', day: 'numeric',
+        hour: 'numeric', minute: 'numeric', second: 'numeric',
+        hour12: true,
+        timeZone: 'Pacific/Auckland'
+    };
+    const newTime = new Intl.DateTimeFormat('en-nz',options).format(createTime);
+
+    res.locals.post = {
+        username: preFormat.username,
+        title: preFormat.title,
+        avatar: preFormat.avatar,
+        content: preFormat.content,
+        created_at: newTime
+    };
 
     res.render('fulltext');
 });
+
+
+
+
+
 
 router.post('/post-comment', verifyAuthenticated, async (req, res) => {
 

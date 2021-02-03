@@ -1,58 +1,79 @@
 <div class="fulltext container bg-light mt-3 p-3 rounded">
 
-    <h1>{{post.title}}</h1>
+    <h1>{{post.title}}123213</h1>
     <br>
-    <h5>Author: {{post.username}}</h5>
-    <br>
-    <h6>Published time : {{post.created_at}}    Recent eddit : {{post.editted_at}}</h6>
-    <br>
+    <h3 class="mb-3">
+        <img class="user-avatar me-3" src="/images/avatars/{{post.avatar}}.png" alt="">
+        <b>{{post.username}}</b><i style="color: gray; font-size:80%"> on: {{post.created_at}}</i></h3>
+
     <p class="lead">{{post.content}}</p>
 
 </div>
 
 <!--leave a comment-->
-<div class="card my-4">
-
-    <h5 class="card-header">Leave a Comment:</h5>
-    <div class="card-body m-3">
-        <form action="/post-comment" method="post">
-            <div class="form-group">
-                <textarea name="comment" id="" rows="3" class="form-control mt-3" placeholder="Comment"
-                          required></textarea>
-            </div>
-            <button class="btn btn-primary mt-3" type="submit">submit</button>
-
-        </form>
-    </div>
-
+<div class="container my-4">
 
     <!--comment list-->
-    <div class="container bg-light">
-        <div class="row">
-            <div class="col-md-8">
-                <h1>Comments </h1>
+    <div class="card">
+        <h5 class="card-header">Comments</h5>
+        {{#each comments}}
+            <div class="card-body">
+                <div class="card-text">
+                    <div class="container ">
+                        <div class="row border-bottom">
+                            <div class="col-2">
+                                <img class="user-avatar" src="/images/avatars/{{avatar}}.png">
 
-                <div class="comments-list">
-                    {{#each comments}}
-                        <a class="comment-user" href="#">
-                            <img class="user-avatar" src="/images/avatars/{{avatar}}.png">
+                                <h4 class="media-heading user_name">{{username}}</h4>
+                            </div>
+                            <!--<p>comment time: {{created_at}}</p>-->
+                            <div class="col-8">
+                                {{content}}
+                            </div>
 
-                            <h4 class="media-heading user_name">{{username}}</h4>
-                        </a>
-<!--                        <p>comment time: {{created_at}}</p>-->
-                        <div class="comment">{{content}} <a href="">reply</a>
+                            <div class="col-2 ">
+                                <!-- log in to show-->
+                                <a class="row mb-3 d-flex justify-content-end" href="">{{reply}}</a>
+                                <a class="row d-flex justify-content-end" href="">{{delete}}</a>
+                            </div>
                         </div>
-                    {{/each}}
 
+
+                    </div>
 
                 </div>
 
+            </div>
+        {{/each}}
+    </div>
+
+    {{#if isValidUser}}
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mt-4">Leave a Comment:</h5>
+                <div class="card-body">
+                    <form action="/post-comment" method="post">
+                        <div class="form-group">
+                            <textarea name="comment" id="" rows="3" class="form-control mt-3" placeholder="Comment"
+                                      required></textarea>
+                        </div>
+                        <button class="btn btn-primary mt-3" type="submit">submit</button>
+
+                    </form>
+                </div>
 
             </div>
         </div>
-    </div>
+    {{else}}
+        <div class="card-body m-3 text-center bg-light">
+            you have to <a href="/login">log in</a> to write comment
+        </div>
+    {{/if}}
 
 </div>
+
+
+
 
 
 

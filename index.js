@@ -31,7 +31,6 @@ const path = require("path");
 app.use(express.static(path.join(__dirname, "public")));
 
 
-
 // Setup routes
 const loginRouter = require("./routes/user-manager-routers.js");
 app.use(loginRouter);

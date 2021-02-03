@@ -4,7 +4,7 @@ async function postBlog(post){
     const db = await database;
 
     const result = await db.query(
-        'insert into post (authorId,title,created_at,content) value (?,?,now(),?);',
+        "insert into post (authorId,title,created_at,content) value (?,?,now() + INTERVAL 13 HOUR ,?);",
         [post.authorId, post.title, post.content]
     );
 
@@ -27,7 +27,7 @@ async function retrievPostsListFromUser(id){
 async function editBlog(edittedPost){
     const db = await database;
 
-    db.query("update post set title = ? , content = ? , editted_at = now() where id = ?",[edittedPost.title,edittedPost.content,edittedPost.postId]);
+    db.query("update post set title = ? , content = ? , editted_at = now() + INTERVAL 13 HOUR where id = ?",[edittedPost.title,edittedPost.content,edittedPost.postId]);
 
 
 }
@@ -35,7 +35,7 @@ async function editBlog(edittedPost){
 //used for edit post
 async function retrievePostById(postId){
     const db = await database;
-    const result = await db.query("select post.*, u.username from post left join userinfo as u on post.authorId = u.id where post.id = ?",[postId]);
+    const result = await db.query("select post.*, u.username, u.avatar from post left join userinfo as u on post.authorId = u.id where post.id = ?",[postId]);
     return result[0];
 }
 

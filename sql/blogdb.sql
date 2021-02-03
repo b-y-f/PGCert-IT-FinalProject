@@ -9,6 +9,8 @@ create table if not exists userinfo
     password    varchar(64) not null,
     dob         date        not null,
     description text        not null,
+    email varchar(64) null default null,
+    name varchar(64) null default null,
     avatar varchar(10) null default 'default',
     constraint pk_user primary key (id, username)
 
@@ -31,10 +33,10 @@ create table if not exists post
 
 );
 
-insert into post(authorId, title, created_at, editted_at, content)
-    value
-    (4, 'GameStop', '1990-05-07', '2020-01-01', 'bb'),
-    (4, 'Test', '1990-05-20', '2015-05-07', 'I''m b');
+# insert into post(authorId, title, created_at, editted_at, content)
+#     value
+#     (4, 'GameStop', '1990-05-07', '2020-01-01', 'bb'),
+#     (4, 'Test', '1990-05-20', '2015-05-07', 'I''m b');
 
 create table if not exists post_comment
 (
@@ -46,9 +48,8 @@ create table if not exists post_comment
     primary key (id)
 );
 
-insert into post_comment(post_id, poster_id, created_at, content)
-    value
-    (1,  1, '2020-08-08','this is a commend content'),
-    (1,  2, '2020-08-08','test comment');
-
+# insert into post_comment(post_id, poster_id, created_at, content)
+#     value
+#     (1,  1, '2020-08-08','this is a commend content'),
+#     (1,  2, '2020-08-08','test comment');
 
