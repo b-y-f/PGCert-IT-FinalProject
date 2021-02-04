@@ -60,18 +60,6 @@ router.get("/signup", function (req, res) {
 
 router.post("/signup", async (req, res) => {
 
-
-    //fix bug Unhandled promise rejection.
-    //check username availability
-    let username = req.body.username;
-    let count = await userDao.userCount(username);
-
-    if (count > 0) {
-        res.status(500).send('false')
-    } else {
-        res.send('ok');
-    }
-
     //JSON output
     if (req.body.password !== undefined) {
         const user = {
@@ -83,6 +71,19 @@ router.post("/signup", async (req, res) => {
 
         await userDao.createUser(user);
         res.redirect("./login?message=Account created successfully!");
+    }else{
+
+        //fix bug Unhandled promise rejection.
+        //check username availability
+        let username = req.body.username;
+        let count = await userDao.userCount(username);
+
+        if (count > 0) {
+            res.status(500).send('false')
+        }else{
+            res.send('ok');
+        }
+
     }
 
 });

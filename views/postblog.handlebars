@@ -30,19 +30,7 @@
 
 
     <!--     Initialize Quill editor and submit form-->
-    <script>
-        var editor = new Quill('#editor-container', {
-            theme: 'snow'
-        });
-
-        var form = document.querySelector("form");
-        form.onsubmit = function() {
-            var content = document.querySelector('input[name=postContent]');
-            content.value = JSON.stringify(editor.getContents());
-        };
-
-
-    </script>
+    <script type="module" src="/js/quill-editor.js"></script>
 
 
 </div>
