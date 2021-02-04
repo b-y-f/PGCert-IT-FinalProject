@@ -1,38 +1,50 @@
 <div class="post-blog ">
 
-    <form class="container bg-light mt-3 rounded" action="/{{edit}}" method="post">
 
-        <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" id="title" value="{{title}}" name="postTitle">
-        </div>
-        <div class="mb-3">
-            <label for="content" class="form-label">Content</label>
-            <div id="toolbar">
-                <button class="ql-bold">Bold</button>
-                <button class="ql-italic">Italic</button>
+    <!--    TODO -->
+    <div id="form-container" class="container">
+        <form action="/{{edit}}" method="post">
+
+            <div class="row form-group mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" value="{{title}}" name="postTitle">
             </div>
 
-            <div id="editor" class="form-control" id="content" rows="5" name="postContent">
-                <p>{{content}}</p>
+
+            <div class="row form-group">
+                <label for="about">Content</label>
+                <input name="about" type="hidden">
+                <div id="editor-container">
+                    <p>A robot who has developed sentience, and is the only robot of his kind shown to be still functioning on Earth.</p>
+                </div>
             </div>
-        </div>
-
-        <!-- Create the toolbar container -->
 
 
+            <div class="row">
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+
+        </form>
+    </div>
 
 
-        <!-- Initialize Quill editor -->
-        <script>
-            var editor = new Quill('#editor', {
-                modules: { toolbar: '#toolbar' },
-                theme: 'snow'
-            });
-        </script>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+    <!--     Initialize Quill editor-->
 
-    </form>
+    <script>
+        var editor = new Quill('#editor-container', {
+            theme: 'snow'
+        });
+
+        $('#testBtn').on('click',()=>{
+
+            const html = editor.root.innerHTML;
+
+            $('#postContent').val(html);
+
+        })
+
+    </script>
+
 
 </div>

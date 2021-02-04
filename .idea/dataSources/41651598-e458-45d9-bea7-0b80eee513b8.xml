@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="yb55@db.trex-sandwich.com">
-  <database-model serializer="dbm" dbms="MARIADB" family-id="MARIADB" format-version="4.20">
+  <database-model serializer="dbm" dbms="MARIADB" family-id="MARIADB" format-version="4.19">
     <root id="1">
       <ServerVersion>10.3.25</ServerVersion>
       <DefaultEngine>InnoDB</DefaultEngine>
@@ -1021,7 +1021,7 @@
     </collation>
     <user id="326" parent="1" name="yb55">
       <Host>%</Host>
-      <ObjectGrants>ALL PRIVILEGES|yb55
+      <ObjectGrants>ALL PRIVILEGES|yb55:null
 </ObjectGrants>
       <RoleGrants>student
 </RoleGrants>

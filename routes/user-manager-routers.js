@@ -61,28 +61,30 @@ router.get("/signup", function (req, res) {
 router.post("/signup", async (req, res) => {
 
 
-    //TODO fix bug Unhandled promise rejection.
-    if (req.body.password===undefined){
-        //check username availability
-        let username = req.body.username;
-        let count = await userDao.userCount(username);
+    //fix bug Unhandled promise rejection.
+    //check username availability
+    let username = req.body.username;
+    let count = await userDao.userCount(username);
 
-        if (count > 0) {
-            res.status(500).send('false')
-        } else {
-            res.send('ok');
-        }
+    if (count > 0) {
+        res.status(500).send('false')
+    } else {
+        res.send('ok');
     }
-    //JSON output
-    const user = {
-        username: req.body.username,
-        password: req.body.password,
-        dob: req.body.dob,
-        description: req.body.description
-    };
 
-    await userDao.createUser(user);
-    res.redirect("./login?message=Account created successfully!");
+    //JSON output
+    if (req.body.password !== undefined) {
+        const user = {
+            username: req.body.username,
+            password: req.body.password,
+            dob: req.body.dob,
+            description: req.body.description
+        };
+
+        await userDao.createUser(user);
+        res.redirect("./login?message=Account created successfully!");
+    }
+
 });
 
 

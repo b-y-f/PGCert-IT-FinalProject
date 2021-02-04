@@ -157,3 +157,9 @@ a {
 .card-inner{
     margin-left: 2rem;
 }
+
+
+/*text area for article editor*/
+#editor-container{
+    height: 400px;
+}
