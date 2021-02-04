@@ -10,7 +10,8 @@
 - Website URL on the course server (trex-sandwich)
 
 - A list of your extra features 
-1. 
+1. check username already in database, test with :'byf','byfsdhr'
+
 
 - Are there any special setup instructions, beyond initializing the database and running your servlet project?
 

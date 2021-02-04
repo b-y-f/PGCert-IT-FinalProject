@@ -1,12 +1,23 @@
 <div class="fulltext container bg-light mt-3 p-3 rounded">
 
-    <h1>{{post.title}}123213</h1>
+    <h1>{{post.title}}</h1>
     <br>
     <h3 class="mb-3">
         <img class="user-avatar me-3" src="/images/avatars/{{post.avatar}}.png" alt="">
         <b>{{post.username}}</b><i style="color: gray; font-size:80%"> on: {{post.created_at}}</i></h3>
 
-    <p class="lead">{{post.content}}</p>
+    <div id="blogContent">{{post.content}}</div>
+
+    <!-- set content  -->
+    <script>
+        var editor = new Quill('#blogContent', {});
+        editor.disable();
+        let aaa = $("#blogContent").text();
+        let aa = JSON.parse(aaa);
+
+        editor.setContents(aa,'silent');
+
+    </script>
 
 </div>
 

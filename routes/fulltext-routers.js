@@ -5,6 +5,8 @@ const commentDao = require("../modules/dao-comment.js");
 const postDao = require("../modules/dao-post.js");
 const verifyAuthenticated = require("../modules/verify-auth.js");
 
+var QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtmlConverter;
+
 
 router.get('/fulltext', async (req, res) => {
     if (req.session.user) {
@@ -18,8 +20,6 @@ router.get('/fulltext', async (req, res) => {
     res.locals.comments = await commentDao.retrieveAllCommentsForPost(postId);
 
     //TODO make delete button and reply for each comment
-
-
 
 
     // modify the datetime to a human readable format
@@ -43,7 +43,7 @@ router.get('/fulltext', async (req, res) => {
     };
 
     res.render('fulltext');
-});
+})
 
 
 

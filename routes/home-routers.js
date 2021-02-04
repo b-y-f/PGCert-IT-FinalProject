@@ -33,6 +33,7 @@ router.post('/', verifyAuthenticated, async (req, res) => {
         authorId: req.session.user.id,
     };
 
+    // console.log(post);
     await postDao.postBlog(post);
     res.redirect('/?message=Post Successfully!');
 

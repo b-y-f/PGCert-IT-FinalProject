@@ -1,21 +1,21 @@
 <div class="post-blog ">
 
 
-    <!--    TODO -->
+    <!--TODO make picture upload work -->
     <div id="form-container" class="container">
         <form action="/{{edit}}" method="post">
 
-            <div class="row form-group mb-3">
+            <div class="row form-group">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" class="form-control" id="title" value="{{title}}" name="postTitle">
             </div>
 
 
             <div class="row form-group">
-                <label for="about">Content</label>
-                <input name="about" type="hidden">
+                <label for="postContent">Content</label>
+                <input name="postContent" type="hidden">
                 <div id="editor-container">
-                    <p>A robot who has developed sentience, and is the only robot of his kind shown to be still functioning on Earth.</p>
+                    {{content}}
                 </div>
             </div>
 
@@ -29,20 +29,18 @@
 
 
 
-    <!--     Initialize Quill editor-->
-
+    <!--     Initialize Quill editor and submit form-->
     <script>
         var editor = new Quill('#editor-container', {
             theme: 'snow'
         });
 
-        $('#testBtn').on('click',()=>{
+        var form = document.querySelector("form");
+        form.onsubmit = function() {
+            var content = document.querySelector('input[name=postContent]');
+            content.value = JSON.stringify(editor.getContents());
+        };
 
-            const html = editor.root.innerHTML;
-
-            $('#postContent').val(html);
-
-        })
 
     </script>
 

@@ -21,8 +21,6 @@ router.get('/createpost', verifyAuthenticated, async (req, res) => {
     }
 
     res.render('postblog');
-
-
 });
 
 
@@ -38,7 +36,7 @@ router.post('/editpost', verifyAuthenticated, async (req, res) => {
     res.redirect('/?message=Edit Successfully!')
 })
 
-// manage user's article
+// TODO manage user's article ERR
 router.get('/post-manager', verifyAuthenticated, async (req, res) => {
 
     res.locals.isValidUser = req.session.user;
