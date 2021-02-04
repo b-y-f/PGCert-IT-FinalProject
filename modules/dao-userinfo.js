@@ -62,6 +62,19 @@ async function addMoreUserInfo(userDetail){
 }
 
 
+
+// TODO check user available
+async function userCount(username){
+
+    const db = await database;
+
+    const userCtn = await db.query("select  count(*) as cntUser from userinfo where username= ? ",[username]);
+
+    return userCtn[0].cntUser;
+
+}
+
+
 module.exports = {
     createUser,
     retrieveUserWithCredentials,
@@ -69,5 +82,6 @@ module.exports = {
     retrieveAllUsers,
     getUserIdByUsername,
     getAvatarById,
-    addMoreUserInfo
+    addMoreUserInfo,
+    userCount
 };

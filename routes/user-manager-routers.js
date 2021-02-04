@@ -60,6 +60,19 @@ router.get("/signup", function (req, res) {
 
 router.post("/signup", async (req, res) => {
 
+
+    //TODO fix bug Unhandled promise rejection.
+    if (req.body.password===undefined){
+        //check username availability
+        let username = req.body.username;
+        let count = await userDao.userCount(username);
+
+        if (count > 0) {
+            res.status(500).send('false')
+        } else {
+            res.send('ok');
+        }
+    }
     //JSON output
     const user = {
         username: req.body.username,
@@ -68,13 +81,12 @@ router.post("/signup", async (req, res) => {
         description: req.body.description
     };
 
-
     await userDao.createUser(user);
     res.redirect("./login?message=Account created successfully!");
 });
 
 
-router.get('/edit-portfolio',verifyAuthenticated, (req, res) => {
+router.get('/edit-portfolio', verifyAuthenticated, (req, res) => {
 
     res.locals.isValidUser = req.session.user;
     res.locals.avatar = req.session.user.avatar;
@@ -83,12 +95,12 @@ router.get('/edit-portfolio',verifyAuthenticated, (req, res) => {
     res.render('portfolio');
 });
 
-router.post('/edit-portfolio',verifyAuthenticated, async (req, res) => {
+router.post('/edit-portfolio', verifyAuthenticated, async (req, res) => {
     const userDetail = {
-        nickName : req.body.nickName,
-        email : req.body.email,
-        avatar : req.body.avatar,
-        userId : req.session.user.id
+        nickName: req.body.nickName,
+        email: req.body.email,
+        avatar: req.body.avatar,
+        userId: req.session.user.id
     }
 
     req.session.user.avatar = req.body.avatar;
@@ -98,12 +110,8 @@ router.post('/edit-portfolio',verifyAuthenticated, async (req, res) => {
 });
 
 
-
-
-
-
 //TODO need to stop refresh after unload the image!!
-router.post("/uploadimage", verifyAuthenticated, upload.single("avatarFile"), async function(req, res) {
+router.post("/uploadimage", verifyAuthenticated, upload.single("avatarFile"), async function (req, res) {
 
     const fileInfo = req.file;
 

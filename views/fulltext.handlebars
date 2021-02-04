@@ -11,68 +11,112 @@
 </div>
 
 <!--leave a comment-->
-<div class="container my-4">
 
-    <!--comment list-->
-    <div class="card">
-        <h5 class="card-header">Comments</h5>
-        {{#each comments}}
-            <div class="card-body">
-                <div class="card-text">
-                    <div class="container ">
-                        <div class="row border-bottom">
-                            <div class="col-2">
-                                <img class="user-avatar" src="/images/avatars/{{avatar}}.png">
+<!--comment list-->
 
-                                <h4 class="media-heading user_name">{{username}}</h4>
+
+<div class="container mt-4">
+    <div class="row">
+
+        <div class="col-12">
+            <div class="blog-comment">
+                <h3 class="text-capitalize">Comments</h3>
+
+
+                <ul class="card">
+                    {{#each comments}}
+                        <li>
+                            <div class="card-header">
+                                <img class="avatar" src="/images/avatars/{{avatar}}.png" alt="">
+                                <div class="post-comments">
+                                    <p class="meta">{{created_at}} <a href="">{{username}}</a> says : <i
+                                            class="pull-right"><a id="replyButton"
+                                                                  href="#reply"><small>Reply</small></a></i></p>
+
+                                    <!--click reply link to comment input-->
+                                    <script>
+                                        $('#replyButton').on('click', function (evt) {
+                                            $('textarea').focus();
+                                            evt.preventDefault();
+                                        });
+                                    </script>
+
+
+                                    <p class="text-wrap">{{content}}</p>
+
+                                    <!-- delete the commenter's post-->
+                                    <div class="d-flex flex-row-reverse"><a href="/delete-comment?id=xxx">Delete</a>
+                                    </div>
+
+                                </div>
+
                             </div>
-                            <!--<p>comment time: {{created_at}}</p>-->
-                            <div class="col-8">
-                                {{content}}
-                            </div>
+                        </li>
 
-                            <div class="col-2 ">
-                                <!-- log in to show-->
-                                <a class="row mb-3 d-flex justify-content-end" href="">{{reply}}</a>
-                                <a class="row d-flex justify-content-end" href="">{{delete}}</a>
-                            </div>
-                        </div>
+                        <ul>
+                            <li>
+                                <div class="card-inner card-header">
+                                    <img class="avatar" src="/images/avatars/{{avatar}}.png" alt="">
+                                    <div class="post-comments">
+                                        <p class="meta">{{created_at}} <a href="">{{username}}</a> says : <i
+                                                class="pull-right"><a id="replyButton"
+                                                                      href="#reply"><small>Reply</small></a></i></p>
+
+                                        <!--click reply link to comment input-->
+                                        <script>
+                                            $('#replyButton').on('click', function (evt) {
+                                                $('textarea').focus();
+                                                evt.preventDefault();
+                                            });
+                                        </script>
 
 
-                    </div>
+                                        <p class="text-wrap">{{content}}</p>
 
-                </div>
+                                        <!-- delete the commenter's post-->
+                                        <div class="d-flex flex-row-reverse"><a href="/delete-comment?id=xxx">Delete</a>
+                                        </div>
 
-            </div>
-        {{/each}}
-    </div>
+                                    </div>
 
-    {{#if isValidUser}}
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mt-4">Leave a Comment:</h5>
-                <div class="card-body">
-                    <form action="/post-comment" method="post">
-                        <div class="form-group">
-                            <textarea name="comment" id="" rows="3" class="form-control mt-3" placeholder="Comment"
+                                </div>
+                            </li>
+                        </ul>
+                    {{/each}}
+
+
+                </ul>
+
+
+
+
+                {{#if isValidUser}}
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mt-4">Leave a Comment:</h5>
+                            <div class="card-body">
+                                <form action="/post-comment" method="post">
+                                    <div class="form-group">
+                            <textarea name="comment" id="reply" rows="3" class="form-control mt-3" placeholder="Comment"
                                       required></textarea>
-                        </div>
-                        <button class="btn btn-primary mt-3" type="submit">submit</button>
+                                    </div>
+                                    <button class="btn btn-primary mt-3" type="submit">submit</button>
 
-                    </form>
-                </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                {{else}}
+                    <div class="card-body m-3 text-center bg-light">
+                        you have to <a href="/login">log in</a> to write comment
+                    </div>
+                {{/if}}
 
             </div>
         </div>
-    {{else}}
-        <div class="card-body m-3 text-center bg-light">
-            you have to <a href="/login">log in</a> to write comment
-        </div>
-    {{/if}}
-
+    </div>
 </div>
-
-
 
 
 

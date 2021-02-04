@@ -8,8 +8,28 @@
         </div>
         <div class="mb-3">
             <label for="content" class="form-label">Content</label>
-            <textarea class="form-control" id="content" rows="5" name="postContent">{{content}}</textarea>
+            <div id="toolbar">
+                <button class="ql-bold">Bold</button>
+                <button class="ql-italic">Italic</button>
+            </div>
+
+            <div id="editor" class="form-control" id="content" rows="5" name="postContent">
+                <p>{{content}}</p>
+            </div>
         </div>
+
+        <!-- Create the toolbar container -->
+
+
+
+
+        <!-- Initialize Quill editor -->
+        <script>
+            var editor = new Quill('#editor', {
+                modules: { toolbar: '#toolbar' },
+                theme: 'snow'
+            });
+        </script>
 
         <button type="submit" class="btn btn-primary">Submit</button>
 
