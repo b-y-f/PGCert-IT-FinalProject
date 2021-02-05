@@ -91,8 +91,10 @@ router.post("/signup", async (req, res) => {
 
 router.get('/edit-portfolio', verifyAuthenticated, (req, res) => {
 
-    res.locals.isValidUser = req.session.user;
-    res.locals.avatar = req.session.user.avatar;
+    if (req.session.user){
+        res.locals.isValidUser = req.session.user;
+    }
+
 
     res.locals.uploadedAvatar = req.query.avatarName;
     res.render('portfolio');

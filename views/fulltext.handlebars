@@ -6,44 +6,98 @@
         <b>{{post.username}}</b><i style="color: gray; font-size:80%"> on: {{post.created_at}}</i>
     </h3>
 
-    <div id="blogContent">{{post.content}}</div>
+    <div id="blogContent">{{{post.content}}}</div>
 
-    <!-- set content  -->
-    <script type="module" src="/js/quill-reader.js"></script>
 
 </div>
 
 <!--leave a comment-->
 
+
+
 <!--comment list-->
-
-
 <div class="container mt-4">
     <div class="row">
 
-        <div class="col-12">
-            <div class="blog-comment">
-                <h3 class="text-capitalize">Comments</h3>
+        <div class="blog-comment">
+            <h3 class="text-capitalize">Comments</h3>
+
+            <ul class="card">
+                {{#each comments}}
+                    <li>
+                        <div class="card-header comment-wrapper">
+                            <img class="avatar" src="/images/avatars/{{avatar}}.png" alt="">
+                            <div class="post-comments">
+                                <p class="meta">{{created_at}} <a href="">{{username}}</a> says : <i
+                                        class="pull-right"><a id="replyButton"
+                                                              href="#reply"><small>Reply</small></a></i></p>
 
 
-                <ul class="card">
-                    {{#each comments}}
+
+                                <p class="text-wrap">{{content}}</p>
+
+                                <!-- delete the commenter's post-->
+                                <div class="d-flex flex-row-reverse"><a href="/delete-comment?id=xxx">Delete</a>
+                                </div>
+
+                            </div>
+
+                            <!--click reply link to comment input-->
+                            <script>
+
+                                $(document).ready(function(){
+                                    let commentBox = $("#commentBox").hide();
+                                    $('#replyButton').on('click', function () {
+                                        commentBox.toggle();
+                                    });
+
+                                    $("#submitReplyBtn").click(function (){
+
+                                        var replyContent = $("#replyContent").val();
+
+                                        $.ajax({
+                                            url: '/reply-comment',
+                                            type: 'post',
+                                            data : {
+                                                commentId:{{commentId}},//parentID
+                                                postId:{{post_id}},//post.id
+                                                posterId:{{poster_id}},//pst_comment.poster_id
+                                                replyContent : replyContent,
+                                            },
+                                            success:function (){
+                                                console.log('good')
+                                            }
+                                        });
+                                    });
+
+                                });
+
+                            </script>
+                            <!--click reply link to comment input-->
+
+                            <!--test-->
+                            <form id="commentBox">
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="Leave a comment here" id="replyContent" style="height: 100px"></textarea>
+                                    <label for="floatingTextarea">Say something...</label>
+                                </div>
+
+                                <button id="submitReplyBtn" type="button" class="btn btn-primary btn-sm">submit</button>
+                            </form>
+                            <!--test-->
+
+                        </div>
+                    </li>
+
+                    <ul>
                         <li>
-                            <div class="card-header">
+
+                            <div class="card-inner card-header">
                                 <img class="avatar" src="/images/avatars/{{avatar}}.png" alt="">
                                 <div class="post-comments">
-                                    <p class="meta">{{created_at}} <a href="">{{username}}</a> says : <i
+                                    <p class="meta">{{created_at}}<a href="">{{username}}</a> says : <i
                                             class="pull-right"><a id="replyButton"
-                                                                  href="#reply"><small>Reply</small></a></i></p>
-
-                                    <!--click reply link to comment input-->
-                                    <script>
-                                        $('#replyButton').on('click', function (evt) {
-                                            $('textarea').focus();
-                                            evt.preventDefault();
-                                        });
-                                    </script>
-
+                                                                  href="#"><small>Reply</small></a></i></p>
 
                                     <p class="text-wrap">{{content}}</p>
 
@@ -55,68 +109,38 @@
 
                             </div>
                         </li>
-
-                        <ul>
-                            <li>
-                                <div class="card-inner card-header">
-                                    <img class="avatar" src="/images/avatars/{{avatar}}.png" alt="">
-                                    <div class="post-comments">
-                                        <p class="meta">{{created_at}} <a href="">{{username}}</a> says : <i
-                                                class="pull-right"><a id="replyButton"
-                                                                      href="#reply"><small>Reply</small></a></i></p>
-
-                                        <!--click reply link to comment input-->
-                                        <script>
-                                            $('#replyButton').on('click', function (evt) {
-                                                $('textarea').focus();
-                                                evt.preventDefault();
-                                            });
-                                        </script>
+                    </ul>
+                {{/each}}
 
 
-                                        <p class="text-wrap">{{content}}</p>
-
-                                        <!-- delete the commenter's post-->
-                                        <div class="d-flex flex-row-reverse"><a href="/delete-comment?id=xxx">Delete</a>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </li>
-                        </ul>
-                    {{/each}}
-
-
-                </ul>
+            </ul>
 
 
 
 
-                {{#if isValidUser}}
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mt-4">Leave a Comment:</h5>
-                            <div class="card-body">
-                                <form action="/post-comment" method="post">
-                                    <div class="form-group">
+            {{#if isValidUser}}
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mt-4">Leave a Comment:</h5>
+                        <div class="card-body">
+                            <form action="/post-comment" method="post">
+                                <div class="form-group">
                             <textarea name="comment" id="reply" rows="3" class="form-control mt-3" placeholder="Comment"
                                       required></textarea>
-                                    </div>
-                                    <button class="btn btn-primary mt-3" type="submit">submit</button>
+                                </div>
+                                <button class="btn btn-primary mt-3" type="submit">submit</button>
 
-                                </form>
-                            </div>
-
+                            </form>
                         </div>
-                    </div>
-                {{else}}
-                    <div class="card-body m-3 text-center bg-light">
-                        you have to <a href="/login">log in</a> to write comment
-                    </div>
-                {{/if}}
 
-            </div>
+                    </div>
+                </div>
+            {{else}}
+                <div class="card-body m-3 text-center bg-light">
+                    you have to <a href="/login">log in</a> to write comment
+                </div>
+            {{/if}}
+
         </div>
     </div>
 </div>

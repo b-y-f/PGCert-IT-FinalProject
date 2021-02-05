@@ -18,8 +18,8 @@ create table if not exists userinfo
 
 insert into userinfo(username, password, dob, description)
     value
-    ('byfsdhr', '123456', '1992-08-01', 'I''m good boy'),
-    ('lilisha', '654321', '1990-05-20', 'I''m good girl');
+    ('admin', '123456', '1992-08-01', 'I''m good boy'),
+    ('guest', '654321', '1990-05-20', 'I''m good girl');
 
 create table if not exists post
 (
@@ -40,12 +40,23 @@ create table if not exists post
 
 create table if not exists post_comment
 (
-    id         int      not null auto_increment,
+    id         int      not null auto_increment, #comment id
     post_id    int references post (id),
     poster_id  int references userinfo (id),
     created_at datetime not null,
-    content    text     null default null,
+    content    varchar(500)     null default null,
     primary key (id)
+);
+
+
+create table if not exists comment_reply
+(
+    reply_id int not null auto_increment,
+    parent_id int references post_comment(id),
+    child_content varchar(500) null default null,
+    replier_id int references userinfo(id),
+    reply_to int references userinfo(id),
+    primary key (reply_id)
 );
 
 # insert into post_comment(post_id, poster_id, created_at, content)

@@ -3,9 +3,10 @@ var editor = new Quill('#editor-container', {
     placeholder: 'Compose an epic...',
 });
 
-if ($("#editor-container").text()!==''){
+const ec = $("#editor-container")
+if (ec.text()!==''){
     // console.log('empty');
-    editor.setContents(JSON.parse($("#editor-container").text()), 'silent');
+    editor.setContents(JSON.parse(ec.text()), 'silent');
 }
 
 const form = document.querySelector("form");

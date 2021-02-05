@@ -36,7 +36,6 @@ router.post('/editpost', verifyAuthenticated, async (req, res) => {
     res.redirect('/?message=Edit Successfully!')
 })
 
-// TODO manage user's article ERR
 router.get('/post-manager', verifyAuthenticated, async (req, res) => {
 
     res.locals.isValidUser = req.session.user;
