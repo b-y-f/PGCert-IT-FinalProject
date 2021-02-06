@@ -10,13 +10,13 @@
 - Website URL on the course server (trex-sandwich)
 
 - A list of your extra features 
-1. check username already in database, test with :'byf','byfsdhr'
 
 
-- Are there any special setup instructions, beyond initializing the database and running your servlet project?
-
+- Are there any special setup instructions, beyond initializing the database and running your servlet project? 
+  - Portfolio avatar can be altered after user logged in.
 - At least one username / password combination for an existing user in your system, with some already-created articles & comments
-
+  - check username already in database, test with :'byf','byfsdhr'.
 - Any other instructions / comments you wish to make to your markers.
+  - no
 
 

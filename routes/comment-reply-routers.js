@@ -25,8 +25,6 @@ router.post('/reply-comment', async (req, res) => {
     await commentDao.addReplyToComment(req.body.commentId,req.body.replyContent, req.body.replierId, req.body.posterId);
 
 
-    console.log(req.body);
-
 
 });
 
