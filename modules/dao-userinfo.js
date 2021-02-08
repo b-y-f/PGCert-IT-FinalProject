@@ -44,6 +44,9 @@ async function getUserIdByUsername(username) {
 async function deleteUser(id) {
     const db = await database;
     await db.query("delete from userinfo where id = ?", [id]);
+    await db.query("delete from post where authorId = ?",[id]);
+    await db.query("delete from post_comment where poster_id = ?",[id]);
+    await db.query("delete from comment_reply where replier_id = ?",[id]);
 }
 
 
@@ -81,7 +84,6 @@ module.exports = {
     retrieveUserWithCredentials,
     deleteUser,
     retrieveAllUsers,
-    getUserIdByUsername,
     getAvatarById,
     addMoreUserInfo,
     userCount

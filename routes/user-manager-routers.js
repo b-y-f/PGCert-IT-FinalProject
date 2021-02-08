@@ -45,11 +45,11 @@ router.post("/login", async function (req, res) {
 });
 
 router.get("/logout", function (req, res) {
-    if (req.session.user) {
-        delete req.session.user;
-        delete req.session.postId;
-    }
-    res.redirect("./?message=Successfully logged out!");
+
+    delete req.session.destroy(err => {
+        res.redirect("./?message=Successfully logged out!");
+    });
+
 });
 
 
@@ -71,7 +71,7 @@ router.post("/signup", async (req, res) => {
 
         await userDao.createUser(user);
         res.redirect("./login?message=Account created successfully!");
-    }else{
+    } else {
 
         //fix bug Unhandled promise rejection.
         //check username availability
@@ -80,7 +80,7 @@ router.post("/signup", async (req, res) => {
 
         if (count > 0) {
             res.status(500).send('false')
-        }else{
+        } else {
             res.send('ok');
         }
 
@@ -91,7 +91,7 @@ router.post("/signup", async (req, res) => {
 
 router.get('/edit-portfolio', verifyAuthenticated, (req, res) => {
 
-    if (req.session.user){
+    if (req.session.user) {
         res.locals.isValidUser = req.session.user;
     }
 
@@ -112,7 +112,7 @@ router.get('/edit-portfolio', verifyAuthenticated, (req, res) => {
 
 router.post('/edit-portfolio', verifyAuthenticated, async (req, res) => {
     const userDetail = {
-        username : req.body.username,
+        username: req.body.username,
         nickName: req.body.nickName,
         email: req.body.email,
         description: req.body.description,
@@ -148,6 +148,12 @@ router.post("/upload-image", verifyAuthenticated, upload.single("avatarFile"), a
 
 
 });
+
+router.post("/delete-account", async (req, res) => {
+    await userDao.deleteUser(req.body.id);
+    req.session.destroy();
+    res.send('done');
+})
 
 
 module.exports = router;

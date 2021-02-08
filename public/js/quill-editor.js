@@ -5,7 +5,6 @@ var editor = new Quill('#editor-container', {
 
 const ec = $("#editor-container")
 if (ec.text()!==''){
-    // console.log('empty');
     editor.setContents(JSON.parse(ec.text()), 'silent');
 }
 

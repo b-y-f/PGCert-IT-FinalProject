@@ -45,38 +45,73 @@
             <label for="avatarFile" class="form-label">Or upload your own avatar</label>
             <input class="form-control" type="file" id="avatarFile" accept=".png,.jpg,.jpeg,.bmp,.gif"
                    name="avatarFile" form="avatarUpload">
+
+
         </div>
 
     </div>
 
     <div class="col-auto">
         <button type="submit" class="btn btn-primary mb-3" form="infoForm">Confirm detail</button>
+        <button type="button" id="deleteAccountBtn" class="btn btn-danger mb-3 float-end" data-toggle="modal" data-target="#deleteAccountModel">Delete Account</button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteAccountModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want DELETE your account?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button id="confirmBtn" type="button" class="btn btn-warning">Yes Delete It</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
-
-
 </div>
 
 <script>
-    $("#avatarFile").on('change', function () {
-        var file = this.files[0];
-        var formData = new FormData();
-        formData.append('avatarFile', file);
-        $.ajax({
-            url: '/upload-image',
-            data: formData,
-            type: "POST",
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                console.log('ok')
-            },
-            error: function () {
-                console.log('fail')
-            }
+    $(document).ready(function(){
+        $("#avatarFile").on('change', function () {
+            var file = this.files[0];
+            var formData = new FormData();
+            formData.append('avatarFile', file);
+            $.ajax({
+                url: '/upload-image',
+                data: formData,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    console.log('ok')
+                },
+                error: function () {
+                    console.log('fail')
+                }
+            });
+            setTimeout(function() {
+                $("#avatarsList").load("/edit-portfolio #avatarsList");
+            }, 1500);
         });
-        setTimeout(function() {
-            $("#avatarsList").load("/edit-portfolio #avatarsList");
-        }, 1500);
 
+        $("#deleteAccountBtn").click(function(){
+            $("#deleteAccountModel").modal('show');
+        });
+
+        $("#confirmBtn").click(function (){
+            const posting = $.post('/delete-account',{id:'{{isValidUser.id}}'});
+            posting.done(res=>{
+                if (res==='done'){
+                    window.location.replace("/?message=Your account has been deleted!");
+                }
+            });
+        });
     });
 </script>
