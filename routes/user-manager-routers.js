@@ -95,28 +95,46 @@ router.get('/edit-portfolio', verifyAuthenticated, (req, res) => {
         res.locals.isValidUser = req.session.user;
     }
 
+    //fsreader find names for avatar dir
+    const avatarImgs = './public/images/avatars';
+    const fs = require('fs');
+    const avatars = [];
 
-    res.locals.uploadedAvatar = req.query.avatarName;
+    fs.readdirSync(avatarImgs).forEach(i => {
+        avatars.push(i);
+    });
+
+    res.locals.avatars = avatars;
+
+
     res.render('portfolio');
 });
 
 router.post('/edit-portfolio', verifyAuthenticated, async (req, res) => {
     const userDetail = {
+        username : req.body.username,
         nickName: req.body.nickName,
         email: req.body.email,
+        description: req.body.description,
         avatar: req.body.avatar,
         userId: req.session.user.id
     }
 
-    req.session.user.avatar = req.body.avatar;
     await userDao.addMoreUserInfo(userDetail);
+    //update the session as well other wise user have to re login to see a updated information
+    req.session.user.avatar = userDetail.avatar;
+    req.session.user.name = userDetail.nickName;
+    req.session.user.username = userDetail.username;
+    req.session.user.email = userDetail.email;
+    req.session.user.description = userDetail.description;
+
 
     res.redirect('/?message=Your detailed information has been updated!!')
 });
 
 
-//TODO need to stop refresh after unload the image!!
-router.post("/uploadimage", verifyAuthenticated, upload.single("avatarFile"), async function (req, res) {
+//need to stop refresh after unload the image!!
+router.post("/upload-image", verifyAuthenticated, upload.single("avatarFile"), async function (req, res) {
 
     const fileInfo = req.file;
 
@@ -129,7 +147,6 @@ router.post("/uploadimage", verifyAuthenticated, upload.single("avatarFile"), as
     image.resize(100, jimp.AUTO).write(`./public/images/avatars/${fileInfo.originalname}`);
 
 
-    res.redirect(`/edit-portfolio?avatarName=${fileInfo.originalname}`);
 });
 
 

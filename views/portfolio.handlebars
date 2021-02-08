@@ -3,16 +3,26 @@
     <!--  update more user information -->
     <!--  form init  -->
     <form id="infoForm" class="row" action="/edit-portfolio" method="post"></form>
-    <form id="avatarUpload" action="/uploadimage" method="post" enctype="multipart/form-data"></form>
-
+    <form id="avatarUpload" action="/upload-image" method="post" enctype="multipart/form-data"></form>
     <!--  Main form  -->
     <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" name="username" value="{{isValidUser.username}}"
+               form="infoForm">
+    </div>
+    <div class="mb-3">
         <label for="nickname" class="form-label">Nickname</label>
-        <input type="text" class="form-control" id="nickname" name="nickName" form="infoForm">
+        <input type="text" class="form-control" id="nickname" name="nickName" value="{{isValidUser.name}}"
+               form="infoForm">
     </div>
     <div class="mb-3">
         <label for="email" class="form-label">E-mail</label>
-        <input type="email" class="form-control" id="email" name="email" form="infoForm">
+        <input type="email" class="form-control" id="email" name="email" value="{{isValidUser.email}}" form="infoForm">
+    </div>
+    <div class="mb-3">
+        <label for="personalInfo" class="form-label">Description of yourself</label>
+        <textarea class="form-control" id="personalInfo" placeholder="I am Bill........"
+                  name="description" form="infoForm">{{isValidUser.description}}</textarea>
     </div>
 
     <!-- user can select avatars and upload thier own-->
@@ -20,58 +30,53 @@
 
         <p>Please select your preferred avatar:</p>
 
-        <label class="avatars">
-            <input type="radio" name="avatar" value="default" checked form="infoForm">
-            <img class="user-avatar" src="/images/avatars/default.png" alt="">
-        </label>
-
-        <label class="avatars">
-            <input type="radio" name="avatar" value="boy" form="infoForm">
-            <img class="user-avatar" src="/images/avatars/boy.png" alt="">
-        </label>
-
-        <label class="avatars">
-            <input type="radio" name="avatar" value="man" form="infoForm">
-            <img class="user-avatar" src="/images/avatars/man.png" alt="">
-        </label>
-
-        <label class="avatars">
-            <input type="radio" name="avatar" value="profile" form="infoForm">
-            <img class="user-avatar" src="/images/avatars/profile.png" alt="">
-        </label>
-
-        <label class="avatars">
-            <input type="radio" name="avatar" value="student" form="infoForm">
-            <img class="user-avatar" src="/images/avatars/student.png" alt="">
-        </label>
+        <div id="avatarsList">
+            {{#each avatars}}
+                <label class="avatars">
+                    <input type="radio" name="avatar" value="{{this}}" form="infoForm">
+                    <img class="user-avatar" src="/images/avatars/{{this}}" alt="">
+                </label>
+            {{/each}}
+        </div>
 
 
-        <label class="avatars">
-            <input type="radio" name="avatar" value="student" form="infoForm">
-            <img class="user-avatar" src="/images/avatars/{{uploadedAvatar}}" alt="">
-        </label>
-
+        <!-- subform-->
+        <div class="form-group mb-3">
+            <label for="avatarFile" class="form-label">Or upload your own avatar</label>
+            <input class="form-control" type="file" id="avatarFile" accept=".png,.jpg,.jpeg,.bmp,.gif"
+                   name="avatarFile" form="avatarUpload">
+        </div>
 
     </div>
-
-    <!-- subform-->
-    <div class="form-group mb-3">
-        <label for="avatarFile" class="form-label">Or upload your own avatar</label>
-        <input class="form-control" type="file" id="avatarFile" accept=".png,.jpg,.jpeg,.bmp,.gif"
-               name="avatarFile" form="avatarUpload" >
-        <script>
-            document.getElementById("avatarFile").onchange = function () {
-                document.getElementById("avatarUpload").submit();
-            };
-        </script>
-    </div>
-
 
     <div class="col-auto">
         <button type="submit" class="btn btn-primary mb-3" form="infoForm">Confirm detail</button>
     </div>
 
 
-
-
 </div>
+
+<script>
+    $("#avatarFile").on('change', function () {
+        var file = this.files[0];
+        var formData = new FormData();
+        formData.append('avatarFile', file);
+        $.ajax({
+            url: '/upload-image',
+            data: formData,
+            type: "POST",
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                console.log('ok')
+            },
+            error: function () {
+                console.log('fail')
+            }
+        });
+        setTimeout(function() {
+            $("#avatarsList").load("/edit-portfolio #avatarsList");
+        }, 1500);
+
+    });
+</script>

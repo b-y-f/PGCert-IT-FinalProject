@@ -23,9 +23,9 @@ async function retrieveUserWithCredentials(username, password) {
         "select * from userinfo where username = ?",
         [username]);
 
-    if(user[0]!==undefined && bcrypt.compareSync(password, user[0].password)){
+    if (user[0] !== undefined && bcrypt.compareSync(password, user[0].password)) {
         return user[0];
-    }else return undefined;
+    } else return undefined;
 
 }
 
@@ -37,7 +37,7 @@ async function retrieveAllUsers() {
 
 async function getUserIdByUsername(username) {
     const db = await database;
-    const result =  await db.query("select id from userinfo where username = ?", [username]);
+    const result = await db.query("select id from userinfo where username = ?", [username]);
     return result[0];
 }
 
@@ -47,28 +47,29 @@ async function deleteUser(id) {
 }
 
 
-async function getAvatarById(id){
+async function getAvatarById(id) {
     const db = await database;
-    const result = await db.query("select avatar from userinfo where id = ?",[id]);
+    const result = await db.query("select avatar from userinfo where id = ?", [id]);
     return result[0];
 }
 
-async function addMoreUserInfo(userDetail){
+async function addMoreUserInfo(userDetail) {
 
     const db = await database;
 
-    await db.query("update userinfo set name = ?, email = ?, avatar = ? where id = ?",[userDetail.nickName, userDetail.email, userDetail.avatar, userDetail.userId]);
+    await db.query(
+        "update userinfo set username = coalesce(?,username), name = coalesce(?,name), email = coalesce(?,email), avatar = coalesce(?,avatar),  description = coalesce(?,description) where id = ? ",
+        [userDetail.username, userDetail.nickName, userDetail.email, userDetail.avatar, userDetail.description, userDetail.userId,]);
 
 }
 
 
-
-// TODO check user available
-async function userCount(username){
+// check user available
+async function userCount(username) {
 
     const db = await database;
 
-    const userCtn = await db.query("select  count(*) as cntUser from userinfo where username= ? ",[username]);
+    const userCtn = await db.query("select  count(*) as cntUser from userinfo where username= ? ", [username]);
 
     return userCtn[0].cntUser;
 

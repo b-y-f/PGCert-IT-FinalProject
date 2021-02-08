@@ -30,7 +30,6 @@ router.get('/', async function (req, res) {
             p.content = converter.convert();
         }
     });
-
     //-----------------------------
     res.locals.posts = posts;
 

@@ -6,21 +6,21 @@ drop table if exists comment_reply;
 create table if not exists userinfo
 (
     id          int         not null auto_increment,
-    username    varchar(64) not null,
+    username    varchar(64) null,
     password    varchar(64) not null,
-    dob         date        not null,
-    description text        not null,
-    email       varchar(64) null default null,
-    name        varchar(64) null default null,
-    avatar      varchar(10) null default 'default',
+    dob         date        null,
+    description text        null,
+    email       varchar(64) null,
+    name        varchar(64) null,
+    avatar      varchar(32) not null default 'default.png',
     constraint pk_user primary key (id, username)
 
 );
 
-insert into userinfo(username, password, dob, description)
-    value
-    ('admin', '123456', '1992-08-01', 'I''m good boy'),
-    ('guest', '654321', '1990-05-20', 'I''m good girl');
+# insert into userinfo(username, password, dob, description)
+#     value
+#     ('admin', '123456', '1992-08-01', 'I''m good boy'),
+#     ('guest', '654321', '1990-05-20', 'I''m good girl');
 
 create table if not exists post
 (
@@ -67,13 +67,13 @@ create table if not exists comment_reply
 );
 
 
-insert into comment_reply(parent_id, child_content, replier_id, reply_to,reply_date)
-    value(1, 'nihao!!', 1, 1,'2020-01-02'),
-    (1,'hi!',2,1,'2020-02-02');
+# insert into comment_reply(parent_id, child_content, replier_id, reply_to,reply_date)
+#     value(1, 'nihao!!', 1, 1,'2020-01-02'),
+#     (1,'hi!',2,1,'2020-02-02');
 
 
 
 # retrieveAllCommentsForPost
-select u.username, c.created_at,c.content,u.avatar, c.post_id, c.poster_id, c.id as 'commentId'  from userinfo as u, post_comment as c where c.poster_id = u.id and c.post_id = 1 order by c.created_at desc
+# select u.username, c.created_at,c.content,u.avatar, c.post_id, c.poster_id, c.id as 'commentId'  from userinfo as u, post_comment as c where c.poster_id = u.id and c.post_id = 1 order by c.created_at desc
 
 

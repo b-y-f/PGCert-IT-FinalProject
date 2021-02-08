@@ -64,7 +64,7 @@
 }
 
 .avatars > input:checked + img{
-    border: 2px solid yellowgreen;
+    border: 2px solid #9acd32;
 }
 
 /*commments*/

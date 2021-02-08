@@ -5,7 +5,7 @@
 
     <h1>{{post.title}}</h1>
     <h3 class="mb-3">
-        <img class="user-avatar me-3" src="/images/avatars/{{post.avatar}}.png" alt="">
+        <img class="user-avatar me-3" src="/images/avatars/{{post.avatar}}" alt="">
         <b>{{post.username}}</b><i style="color: gray; font-size:80%"> on: {{post.created_at}}</i>
     </h3>
 
@@ -33,7 +33,7 @@
                         <input type="hidden" class="posterId" value="{{poster_id}}">
                     </div>
                     <div class="card-header comment-wrapper ">
-                        <img class="avatar" src="/images/avatars/{{avatar}}.png" alt="">
+                        <img class="avatar" src="/images/avatars/{{avatar}}" alt="">
                         <div class="post-comments">
                             <p class="meta">
                                 {{created_at}} <span class="text-info">{{username}}</span> says :
@@ -58,7 +58,7 @@
                         <div class="reply-list">
                             {{#each replies}}
                                 <div class="card-header card-inner comment-wrapper">
-                                    <img class="avatar" src="/images/avatars/{{replierAvatar}}.png" alt="">
+                                    <img class="avatar" src="/images/avatars/{{replierAvatar}}" alt="">
                                     <div class="post-comments">
                                         <p class="meta">
                                             {{reply_date}}
