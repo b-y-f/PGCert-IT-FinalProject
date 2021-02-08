@@ -20,13 +20,25 @@ router.post('/post-comment', verifyAuthenticated, async (req, res) => {
 
 router.post('/reply-comment', async (req, res) => {
 
-
-
     await commentDao.addReplyToComment(req.body.commentId,req.body.replyContent, req.body.replierId, req.body.posterId);
 
-
-
 });
+
+
+router.get('/delete-comment',async (req, res) => {
+
+   await commentDao.deleteComments(req.query.id);
+
+})
+
+
+router.get('/delete-reply',async (req, res) => {
+
+
+    await commentDao.deleteReplies(req.query.id);
+
+
+})
 
 
 

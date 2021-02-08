@@ -1,3 +1,6 @@
+<!--import js-->
+<script type="module" src="/js/comments.js"></script>
+
 <div class="fulltext container bg-light mt-3 p-3 rounded">
 
     <h1>{{post.title}}</h1>
@@ -11,116 +14,87 @@
 
 </div>
 
+
 <!--leave a comment-->
 
-
+<input type="hidden" id="replierId" value="{{isValidUser.id}}">
 <!--comment list-->
-<div class="container mt-4">
+<div class="container mt-4" id="blog-container">
     <div class="row">
 
         <div class="blog-comment">
             <h3 class="text-capitalize">Comments</h3>
 
             <ul class="card">
-
                 {{#each comments}}
-                    <div class="card-header comment-wrapper">
+                    <div class="hiddenInfo">
+                        <input type="hidden" class="commentId" value="{{commentId}}">
+                        <input type="hidden" id="postId" value="{{post_id}}">
+                        <input type="hidden" class="posterId" value="{{poster_id}}">
+                    </div>
+                    <div class="card-header comment-wrapper ">
                         <img class="avatar" src="/images/avatars/{{avatar}}.png" alt="">
                         <div class="post-comments">
-                            <p class="meta">{{created_at}} <a href="#">{{username}}</a> says : <i
-                                    class="pull-right"><a id="replyButton-{{@index}}"
-                                                          href="#23"><small>Reply</small></a></i></p>
+                            <p class="meta">
+                                {{created_at}} <span class="text-info">{{username}}</span> says :
 
-
-                            <p class="text-wrap">{{content}}</p>
-
-                            <!-- delete the commenter's post-->
-                            {{#if isCommenter}}
-                                <div class="d-flex flex-row-reverse"><a href="/delete-comment?id={{commentId}}">Delete</a>
-                                </div>
-                            {{/if}}
-
-
-                        </div>
-
-                        <!--click reply link to comment input-->
-                        <script>
-
-                            $(document).ready(function () {
-                                let commentBox = $("#commentBox-{{@index}}").hide();
-                                $('#replyButton-{{@index}}').on('click', function () {
-                                    commentBox.toggle();
-                                });
-
-                                $("submitReplyBtn-{{@index}}").click(function () {
-
-                                    var replyContent = $("replyContent-{{@index}}").val();
-
-                                    $.ajax({
-                                        url: '/reply-comment',
-                                        type: 'post',
-                                        data: {
-                                            commentId:{{commentId}},//parentID
-                                            postId:{{post_id}},//post.id
-                                            posterId:{{poster_id}},//pst_comment.poster_id
-                                            replyContent: replyContent,
-                                        },
-                                        success: function () {
-                                            console.log('good')
-                                        }
-                                    });
-                                });
-
-                            });
-
-                        </script>
-                        <!--click reply link to comment input-->
-
-                    </div>
-
-                    {{#if replies}}
-                        {{#each replies}}
-                        <div class="card-header card-inner comment-wrapper">
-                            <img class="avatar" src="/images/avatars/{{replierAvatar}}.png" alt="">
-                            <div class="post-comments">
-                                <p class="meta">{{reply_date}} <a href="#">{{replierUsername}}</a> says : <i
-                                        class="pull-right"><a id="replyButton-{{@index}}"
-                                                              href="#23"><small>Reply</small></a></i></p>
-
-
-                                <p class="text-wrap">{{child_content}}</p>
-
-                                <!-- delete the commenter's post-->
-                                {{#if isReplier}}
-                                    <div class="d-flex flex-row-reverse"><a href="/delete-reply?id={{reply_id}}">Delete</a>
-                                    </div>
+                                {{#if isCommenter}}
+                                    <span class="deleteBtn  badge bg-danger float-end"
+                                          style="cursor: pointer;">Delete</span>
                                 {{/if}}
 
-                            </div>
+                                {{#if ../isValidUser}}
+                                    <span class="replyButton  badge bg-primary float-end"
+                                          style="cursor: pointer; margin-right: 5px">Reply</span>
+                                {{/if}}
+
+                            </p>
+
+                            <p class="text-wrap">{{content}}</p>
                         </div>
-                        {{/each}}
+                        <!-- reply textarea in here-->
+                    </div>
+                    {{#if replies}}
+                        <div class="reply-list">
+                            {{#each replies}}
+                                <div class="card-header card-inner comment-wrapper">
+                                    <img class="avatar" src="/images/avatars/{{replierAvatar}}.png" alt="">
+                                    <div class="post-comments">
+                                        <p class="meta">
+                                            {{reply_date}}
+                                            <span class="text-secondary replierUsername">
+                                                {{replierUsername}}
+                                            </span> says :
+                                            <!-- delete the commenter's post-->
+                                            {{#if isReplier}}
+                                                <span class="deleteReplyBtn badge bg-danger float-end"
+                                                      style="cursor: pointer;">Delete</span>
+                                                <input type="hidden" class="replyId" value="{{reply_id}}">
+
+                                            {{/if}}
+
+
+                                            {{#if ../../isValidUser}}
+                                                <span class="replyButton replyTo badge bg-primary float-end"
+                                                      style="cursor: pointer; margin-right: 5px">Reply</span>
+                                            {{/if}}
+
+
+                                        </p>
+
+
+                                        <p class="text-wrap">{{child_content}}</p>
+
+
+                                    </div>
+                                </div>
+                            {{/each}}
+                        </div>
 
                     {{/if}}
 
-                    <!--test-->
-                    <div id="commentBox-{{@index}}">
-
-                        <div class="form-floating ">
-                                <textarea class="form-control" placeholder="Leave a comment here"
-                                          id="replyContent-{{@index}}"
-                                          style="height: 100px"></textarea>
-                            <label for="floatingTextarea">Say something...</label>
-                        </div>
-
-                        <button id="submitReplyBtn-{{@index}}" type="button" class="btn btn-primary btn-sm">submit
-                        </button>
-                    </div>
-                    <!--test-->
                 {{/each}}
-
             </ul>
-
-
 
             {{#if isValidUser}}
                 <div class="card">

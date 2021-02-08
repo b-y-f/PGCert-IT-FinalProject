@@ -4,7 +4,7 @@ const database = require("./database.js");
 async function createComment(comment) {
     const db = await database;
     await db.query(
-        "insert into post_comment(post_id, poster_id, created_at, content) value (?,?, now(),?)", [comment.postId, comment.posterId, comment.content]
+        "insert into post_comment(post_id, poster_id, created_at, content) value (?,?, now() + interval 13 hour,?)", [comment.postId, comment.posterId, comment.content]
     );
 }
 
@@ -31,8 +31,32 @@ async function addReplyToComment(commentId, replyDate, replyContent, replierId, 
     const db = await database;
 
     await db.query(
-        "insert into comment_reply(parent_id, reply_date, child_content, replier_id, reply_to) value (?,?,?,?,?)", [commentId, replyDate, replyContent, replierId, replyTo]
+        "insert into comment_reply(parent_id, reply_date, child_content, replier_id, reply_to) value (?,now()+ interval 13 hour,?,?,?)", [commentId, replyDate, replyContent, replierId, replyTo]
     );
+}
+
+async function deleteComments(commentId){
+
+    const db = await database;
+
+    await db.query(
+        "delete from post_comment where id = ?",[commentId]
+    )
+
+    //delete sub-replies
+
+    await db.query(
+        "delete from comment_reply where parent_id = ?",[commentId]
+    )
+}
+
+async function deleteReplies(replyId){
+
+    const db = await database;
+
+    await db.query(
+        "delete from comment_reply where reply_id = ?",[replyId]
+    )
 
 }
 
@@ -41,4 +65,6 @@ module.exports = {
     createComment,
     retrieveAllCommentsForPost,
     addReplyToComment,
+    deleteComments,
+    deleteReplies
 };
