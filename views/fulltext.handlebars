@@ -6,7 +6,10 @@
     <h1>{{post.title}}</h1>
     <h3 class="mb-3">
         <img class="user-avatar me-3" src="/images/avatars/{{post.avatar}}" alt="">
-        <b>{{post.username}}</b><i style="color: gray; font-size:80%"> on: {{post.created_at}}</i>
+        <b>{{post.username}}</b>&nbsp;&nbsp;on:&nbsp; <i style="color: gray; font-size:70%"> {{post.created_at}}</i>
+        {{#if post.editted_at}}
+            &nbsp;&nbsp;edited at:&nbsp; <i style="color: gray; font-size:70%">{{post.editted_at}}</i>
+        {{/if}}
     </h3>
 
     <div id="blogContent">{{{post.content}}}</div>
@@ -26,74 +29,75 @@
             <h3 class="text-capitalize">Comments</h3>
 
             <ul class="card">
-                {{#each comments}}
-                    <div class="hiddenInfo">
-                        <input type="hidden" class="commentId" value="{{commentId}}">
-                        <input type="hidden" id="postId" value="{{post_id}}">
-                        <input type="hidden" class="posterId" value="{{poster_id}}">
-                    </div>
-                    <div class="card-header comment-wrapper ">
-                        <img class="avatar" src="/images/avatars/{{avatar}}" alt="">
-                        <div class="post-comments">
-                            <p class="meta">
-                                {{created_at}} <span class="text-info">{{username}}</span> says :
-
-                                {{#if isCommenter}}
-                                    <span class="deleteBtn  badge bg-danger float-end"
-                                          style="cursor: pointer;">Delete</span>
-                                {{/if}}
-
-                                {{#if ../isValidUser}}
-                                    <span class="replyButton  badge bg-primary float-end"
-                                          style="cursor: pointer; margin-right: 5px">Reply</span>
-                                {{/if}}
-
-                            </p>
-
-                            <p class="text-wrap">{{content}}</p>
+                    {{#each comments}}
+                        <div class="hiddenInfo">
+                            <input type="hidden" class="commentId" value="{{commentId}}">
+                            <input type="hidden" id="postId" value="{{post_id}}">
+                            <input type="hidden" class="posterId" value="{{poster_id}}">
                         </div>
-                        <!-- reply textarea in here-->
-                    </div>
-                    {{#if replies}}
-                        <div class="reply-list">
-                            {{#each replies}}
-                                <div class="card-header card-inner comment-wrapper">
-                                    <img class="avatar" src="/images/avatars/{{replierAvatar}}" alt="">
-                                    <div class="post-comments">
-                                        <p class="meta">
-                                            {{reply_date}}
-                                            <span class="text-secondary replierUsername">
-                                                {{replierUsername}}
-                                            </span> says :
-                                            <!-- delete the commenter's post-->
-                                            {{#if isReplier}}
-                                                <span class="deleteReplyBtn badge bg-danger float-end"
-                                                      style="cursor: pointer;">Delete</span>
-                                                <input type="hidden" class="replyId" value="{{reply_id}}">
+                        <div class="card-header comment-wrapper ">
+                            <img class="avatar" src="/images/avatars/{{avatar}}" alt="">
+                            <div class="post-comments">
+                                <p class="meta">
+                                    {{created_at}} <span class="text-info">{{username}}</span> says :
 
-                                            {{/if}}
+                                    {{#if isCommenter}}
+                                        <span class="deleteBtn  badge bg-danger float-end"
+                                              style="cursor: pointer;">Delete</span>
+                                    {{/if}}
+
+                                    {{#if ../isValidUser}}
+                                        <span class="replyButton  badge bg-primary float-end"
+                                              style="cursor: pointer; margin-right: 5px">Reply</span>
+                                    {{/if}}
+
+                                </p>
+
+                                <p class="text-wrap">{{content}}</p>
+                            </div>
+                            <!-- reply textarea in here-->
+                        </div>
+                        {{#if replies}}
+                            <div class="reply-list">
+                                {{#each replies}}
+                                    <div class="card-header card-inner comment-wrapper">
+                                        <img class="avatar" src="/images/avatars/{{replierAvatar}}" alt="">
+                                        <div class="post-comments">
+                                            <p class="meta">
+                                                {{reply_date}}
+                                                <span class="text-secondary replierUsername">
+                                                    {{replierUsername}}
+                                                </span> says :
+                                                <!-- delete the commenter's post-->
+                                                {{#if isReplier}}
+                                                    <span class="deleteReplyBtn badge bg-danger float-end"
+                                                          style="cursor: pointer;">Delete</span>
+                                                    <input type="hidden" class="replyId" value="{{reply_id}}">
+
+                                                {{/if}}
 
 
-                                            {{#if ../../isValidUser}}
-                                                <span class="replyButton replyTo badge bg-primary float-end"
-                                                      style="cursor: pointer; margin-right: 5px">Reply</span>
-                                            {{/if}}
+                                                {{#if ../../isValidUser}}
+                                                    <span class="replyButton replyTo badge bg-primary float-end"
+                                                          style="cursor: pointer; margin-right: 5px">Reply</span>
+                                                {{/if}}
 
 
-                                        </p>
+                                            </p>
 
 
-                                        <p class="text-wrap">{{child_content}}</p>
+                                            <p class="text-wrap">{{child_content}}</p>
 
 
+                                        </div>
                                     </div>
-                                </div>
-                            {{/each}}
-                        </div>
+                                {{/each}}
+                            </div>
 
-                    {{/if}}
+                        {{/if}}
 
-                {{/each}}
+                    {{/each}}
+
             </ul>
 
             {{#if isValidUser}}

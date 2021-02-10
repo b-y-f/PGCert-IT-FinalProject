@@ -28,6 +28,8 @@ router.get('/', async function (req, res) {
         if (p.content!==''){
             let converter = new QuillDeltaToHtmlConverter(JSON.parse(p.content).ops, {});
             p.content = converter.convert();
+        }else{
+            console.log("Invalid post content format!!")
         }
     });
     //-----------------------------

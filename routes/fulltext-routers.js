@@ -10,42 +10,21 @@ const QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtm
 router.get('/fulltext', async (req, res) => {
 
 
-
     let postId = req.query.id;
     req.session.postId = postId;
 
     res.locals.comments = await commentDao.retrieveAllCommentsForPost(postId);
 
-    // console.log(res.locals.comments[0].replies)
-    // reply_id: 44,
-    //     parent_id: 5,
-    //     reply_date: 2021-02-07T12:18:01.000Z,
-    //     child_content: '33',
-    //     replier_id: 3,
-    //     reply_to: 2,
-    //     id: 3,
-    //     username: 'byf',
-    //     password: '$2b$10$Vd4cDItmLnLrkzfR9khuM.o/vrxH3k0ld1RCeKY.fd7Xtkxat.coy',
-    //     dob: 2021-02-17T11:00:00.000Z,
-    //     description: '',
-    //     email: '',
-    //     name: '',
-    //     avatar: 'boy',
-    //     replierUsername: 'byf',
-    //     replierAvatar: 'boy'
-
-
-    // username: 'byf',
-    //     created_at: 2021-02-07T09:29:21.000Z,
-    //     content: 'rgfg',
-    //     avatar: 'boy',
-    //     post_id: 2,
-    //     poster_id: 3,
-    //     commentId: 23,
-    //     replies: [ meta: [Array] ]
-
-
-    //make delete button and reply for each comment
+    //convert time into local
+    res.locals.comments.map(c=>{
+        c.created_at = new Date(c.created_at).toLocaleString('en-NZ');
+    });
+    res.locals.comments.map(c=>{
+        c.replies.map(r=>{
+            r.reply_date = new Date(r.reply_date).toLocaleString('en-NZ');
+        })
+    })
+    //
 
     if (req.session.user) {
         res.locals.isValidUser = req.session.user;
@@ -60,33 +39,29 @@ router.get('/fulltext', async (req, res) => {
     }
 
     // modify the datetime to a human readable format
-    const preFormat = await postDao.retrievePostById(postId);
+    const post = await postDao.retrievePostById(postId);
 
 
-    const createTime = preFormat.created_at;
+    const createTime = post.created_at;
     options = {
         year: 'numeric', month: 'numeric', day: 'numeric',
         hour: 'numeric', minute: 'numeric', second: 'numeric',
         hour12: true,
-        timeZone: 'Pacific/Auckland'
     };
-    const newTime = new Intl.DateTimeFormat('en-nz', options).format(createTime);
+    const humanReadbleTime = new Date(createTime).toLocaleString('en-NZ',options);
 
     //render blog fulltext
-    if (preFormat.content !== '') {
-        let converter = new QuillDeltaToHtmlConverter(JSON.parse(preFormat.content).ops, {});
-        preFormat.content = converter.convert();
+    if (post.content !== '') {
+        let converter = new QuillDeltaToHtmlConverter(JSON.parse(post.content).ops, {});
+        post.content = converter.convert();
     }
 
+    res.locals.post = post;
+    res.locals.post.created_at = humanReadbleTime;
 
-
-    res.locals.post = {
-        username: preFormat.username,
-        title: preFormat.title,
-        avatar: preFormat.avatar,
-        content: preFormat.content,
-        created_at: newTime
-    };
+    if (res.locals.post.editted_at!==null){
+        res.locals.post.editted_at = new Date(res.locals.post.editted_at).toLocaleString('en-NZ');
+    }
 
     res.render('fulltext');
 })

@@ -8,16 +8,18 @@
     {{/if}}
 
     {{#each posts}}
+        {{#if visible}}
+            <div class="container bg-light p-5 rounded mt-3 rounded">
+                <!--    click into full text-->
+                <h1 class=""><a class="text-dark text-decoration-none" href="/fulltext?id={{id}}">{{title}}</a></h1>
 
-        <div class="container bg-light p-5 rounded mt-3 rounded">
-            <!--    click into full text-->
-            <h1 class=""><a class="text-dark text-decoration-none" href="/fulltext?id={{id}}">{{title}}</a></h1>
-
-            <div id="blogContent">
-                {{{content}}}
+                <div id="blogContent">
+                    {{{content}}}
+                </div>
             </div>
+        {{/if}}
 
-        </div>
+
 
     {{/each}}
 

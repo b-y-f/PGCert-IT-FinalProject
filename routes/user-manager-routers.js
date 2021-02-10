@@ -22,6 +22,7 @@ router.use(function (req, res, next) {
 
 router.get("/login", function (req, res) {
     res.locals.message = req.query.message;
+    res.locals.status = req.query.status;
 
     res.render("login");
 });
@@ -38,7 +39,7 @@ router.post("/login", async function (req, res) {
         res.redirect("/?message=Login Successfully!");
     } else {
         // Passwords don't match
-        res.redirect("./login?message=Authentication failed!");
+        res.redirect("./login?message=Authentication failed!&status=bg-warning");
     }
 
 
@@ -70,7 +71,7 @@ router.post("/signup", async (req, res) => {
         };
 
         await userDao.createUser(user);
-        res.redirect("./login?message=Account created successfully!");
+        res.redirect("./login?message=Account created successfully!&status=bg-primary");
     } else {
 
         //fix bug Unhandled promise rejection.

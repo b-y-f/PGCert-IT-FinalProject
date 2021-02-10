@@ -30,14 +30,15 @@ create table if not exists post
     created_at datetime    not null,
     editted_at datetime    null,
     content    text        null default null,
+    visible boolean not null default true,
     primary key (id)
 
 );
 
-# insert into post(authorId, title, created_at, editted_at, content)
-#     value
-#     (4, 'GameStop', '1990-05-07', '2020-01-01', 'bb'),
-#     (4, 'Test', '1990-05-20', '2015-05-07', 'I''m b');
+insert into post(authorId, title, created_at, editted_at, content,visible)
+    value
+    (1, 'dqwe', '1990-05-07', '2020-01-01', 'bb',true),
+    (1, 'Test', '1990-05-20', '2015-05-07', 'I''m b',false);
 
 create table if not exists post_comment
 (
