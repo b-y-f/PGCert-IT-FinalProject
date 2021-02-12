@@ -181,6 +181,22 @@ public class OperationMariadb {
     }
 
 
+    ResultSet getPostsBetween(Date from, Date to) throws Exception {
+        try{
+            String sql = "select * from post where created_at between ? and ?";
+            conn = createConnection(getDburl(), getUsername(), getPassword());
+            stmt = conn.prepareStatement(sql);
+            stmt.setDate(1, from);
+            stmt.setDate(2, to);
+            rs = stmt.executeQuery();
+        }catch (SQLException e){
+            System.err.println(e.getMessage());
+
+        }
+        return rs;
+    }
+
+
     void executeUpdate(int UpdateID, String UpdateItem, String UpdateContent) throws Exception {
         try {
             conn = createConnection(getDburl(), getUsername(), getPassword());

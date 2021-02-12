@@ -1,6 +1,7 @@
 package admin.BlogManager;
 
 import admin.BlogManager.resetPassword.SendEmail;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -10,36 +11,43 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.sql.ResultSet;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
 public class MySQLGUI extends JFrame implements MouseListener {
 
     private JTabbedPane Base;
-    private JPanel jp1, jp2, jp3, jp4, jp5,jp6;
+    private JPanel jp1, jp2, jp3, jp4, jp5,jp6,jp7;
 
     // set buttons
     private JButton InsertRecord, InsertReset, DeleteRecord, DeleteReset,
             queryPosts, UpdateRecord, UpdateReset,
             hidePostBtn, showPostBtn,
             getEmailByUsernameBtn, resetPasswordBtn,
-            getPostJsonBtn, getCommentJsonBtn, importJsonBtn;
+            getPostJsonBtn, getCommentJsonBtn, importJsonBtn,
+            jp7QueryPostsBtn;
 
     private JLabel insertUsername, insertPassword, insertNickname, insertDob, insertDiscretion,
-            insertEmail, DeleteID1, UpdateID1, jp5UsernameLabel, jp5EmailLabel;
+            insertEmail, DeleteID1, UpdateID1, jp5UsernameLabel, jp5EmailLabel,jp7SelectDateInBetween,
+            jp7FromDate,jp7ToDate;
 
     private JTextField insertUsernameText, insertPasswordText, insertNicknameText, insertDiscretionText, insertEmailText,
             DeleteID2, UpdateID2, UpdateContent, inputUsername, inputEmail;
 
-    private JFormattedTextField insertDobText;
+    private JFormattedTextField insertDobText , jp7FromText, jp7ToText ;
     private ResultSetTable rsTable;
 
 
-    private JTextArea QueryRecordResult;
+    private JTextArea QueryRecordResult,queryPostsResult;
 
     private OperationMariadb db = null;
-    private JScrollPane scroll = null;
+    private JScrollPane scroll = null , dateSelectPostScroll = null;
     private JComboBox<String> UpdateItem = null;
+
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+
 
     MySQLGUI() {
         setButton();
@@ -128,7 +136,10 @@ public class MySQLGUI extends JFrame implements MouseListener {
         importJsonBtn.setBounds(250, 150, 200, 45);
 
         //7 btn
-
+        jp7QueryPostsBtn = new JButton("Search");
+        jp7QueryPostsBtn.setFont(new Font("Serif", 0, 20));
+        jp7QueryPostsBtn.setBackground(Color.cyan);
+        jp7QueryPostsBtn.setBounds(100, 200, 100, 45);
 
 
         initial();
@@ -138,27 +149,22 @@ public class MySQLGUI extends JFrame implements MouseListener {
         // jp1 tag
         insertUsername = new JLabel("Username: ");
         insertUsername.setFont(new Font("Dialog", 1, 20));
-        insertUsername.setBackground(Color.GREEN);
         insertUsername.setBounds(80, 25, 150, 50);
 
         insertPassword = new JLabel("Password: ");
         insertPassword.setFont(new Font("Dialog", 1, 20));
-        insertPassword.setBackground(Color.GREEN);
         insertPassword.setBounds(80, 75, 150, 50);
 
         insertNickname = new JLabel("Nickname: ");
         insertNickname.setFont(new Font("Dialog", 1, 20));
-        insertNickname.setBackground(Color.GREEN);
         insertNickname.setBounds(80, 125, 150, 50);
 
         insertDob = new JLabel("Date of Birth: ");
         insertDob.setFont(new Font("Dialog", 1, 20));
-        insertDob.setBackground(Color.GREEN);
         insertDob.setBounds(80, 175, 150, 50);
 
         insertDiscretion = new JLabel("Description: ");
         insertDiscretion.setFont(new Font("Dialog", 1, 20));
-        insertDiscretion.setBackground(Color.GREEN);
         insertDiscretion.setBounds(80, 225, 150, 50);
 
         insertEmail = new JLabel("E-mail: ");
@@ -191,13 +197,25 @@ public class MySQLGUI extends JFrame implements MouseListener {
         // jp5 label
         jp5UsernameLabel = new JLabel("Username: ");
         jp5UsernameLabel.setFont(new Font("Dialog", 1, 20));
-        jp5UsernameLabel.setBackground(Color.GREEN);
         jp5UsernameLabel.setBounds(80, 25, 150, 50);
 
         jp5EmailLabel = new JLabel("Email: ");
         jp5EmailLabel.setFont(new Font("Dialog", 1, 20));
-        jp5EmailLabel.setBackground(Color.GREEN);
         jp5EmailLabel.setBounds(80, 85, 150, 50);
+
+        //jp7 label
+        jp7SelectDateInBetween = new JLabel("Please select a date in between");
+        jp7SelectDateInBetween.setFont(new Font("Dialog", 1, 20));
+        jp7SelectDateInBetween.setBounds(25, 10, 300, 50);
+
+        jp7FromDate = new JLabel("From");
+        jp7FromDate.setFont(new Font("Dialog", 0, 20));
+        jp7FromDate.setBounds(25, 60, 300, 50);
+
+        jp7ToDate = new JLabel("To");
+        jp7ToDate.setFont(new Font("Dialog", 0, 20));
+        jp7ToDate.setBounds(25, 120, 300, 50);
+
 
     }
 
@@ -218,7 +236,7 @@ public class MySQLGUI extends JFrame implements MouseListener {
 
 
         //date selector
-        insertDobText = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
+        insertDobText = new JFormattedTextField(dateFormat);
         insertDobText.setFont(new Font("Serif", 1, 23));
         insertDobText.setBounds(210, 180, 250, 35);
         insertDobText.setValue(new Date());
@@ -269,6 +287,27 @@ public class MySQLGUI extends JFrame implements MouseListener {
         inputEmail.setFont(new Font("Serif", 1, 18));
         inputEmail.setBounds(210, 90, 250, 35);
 
+        //tag 7
+        jp7FromText = new JFormattedTextField(dateFormat);
+        jp7FromText.setFont(new Font("Serif", 1, 23));
+        jp7FromText.setBounds(100, 60, 220, 35);
+        jp7FromText.setValue(new Date());
+
+        jp7ToText = new JFormattedTextField(dateFormat);
+        jp7ToText.setFont(new Font("Serif", 1, 23));
+        jp7ToText.setBounds(100, 140, 220, 35);
+        jp7ToText.setValue(new Date());
+
+        queryPostsResult = new JTextArea("Result：");
+        queryPostsResult.setFont(new Font("Dialog", 1, 20));
+        queryPostsResult.setEditable(false);
+        queryPostsResult.setLineWrap(true);
+
+        dateSelectPostScroll = new JScrollPane(queryPostsResult);
+        dateSelectPostScroll.setBounds(350, 30, 380, 420);
+        dateSelectPostScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        dateSelectPostScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
 
     }
 
@@ -279,6 +318,7 @@ public class MySQLGUI extends JFrame implements MouseListener {
         jp4 = new JPanel();
         jp5 = new JPanel();
         jp6 = new JPanel();
+        jp7 = new JPanel();
     }
 
     private void setLayout() {
@@ -343,6 +383,19 @@ public class MySQLGUI extends JFrame implements MouseListener {
         jp6.add(getCommentJsonBtn);
         jp6.add(importJsonBtn);
 
+        //jp7
+        jp7.setLayout(null);
+        jp7.add(jp7SelectDateInBetween);
+        jp7.add(jp7FromDate);
+        jp7.add(jp7FromText);
+        jp7.add(jp7ToDate);
+        jp7.add(jp7ToText);
+        jp7.add(jp7QueryPostsBtn);
+        jp7.add(dateSelectPostScroll);
+
+
+
+
     }
 
     private void setBase() {
@@ -352,7 +405,8 @@ public class MySQLGUI extends JFrame implements MouseListener {
         Base.addTab("Update User", jp3);
         Base.addTab("Article Hide", jp4);
         Base.addTab("Reset Password", jp5);
-        Base.addTab("Export to Json",jp6);
+        Base.addTab("Ex/Import with Jackson",jp6);
+        Base.addTab("Select between Dates",jp7);
     }
 
     private void setThis() {
@@ -393,6 +447,8 @@ public class MySQLGUI extends JFrame implements MouseListener {
         getCommentJsonBtn.addMouseListener(this);
 
         importJsonBtn.addMouseListener(this);
+
+        jp7QueryPostsBtn.addMouseListener(this);
     }
 
     @Override
@@ -647,6 +703,39 @@ public class MySQLGUI extends JFrame implements MouseListener {
 
             } catch (Exception e1) {
                 e1.printStackTrace();
+            }
+        } else if (e.getSource().equals(jp7QueryPostsBtn)) {
+            try {
+                //generate Jtable and pop data to it
+                if (rsTable != null) {
+                    jp7.remove(rsTable);
+
+                }
+
+                Date parsedFrom = dateFormat.parse(jp7FromText.getText());
+                Date parsedTo = dateFormat.parse(jp7ToText.getText());
+
+                java.sql.Date sqlFrom = new java.sql.Date(parsedFrom.getTime());
+                java.sql.Date sqlTo = new java.sql.Date(parsedTo.getTime());
+
+                db.setRs(db.getPostsBetween(sqlFrom,sqlTo));
+                rsTable = new ResultSetTable(db.getRs());
+                rsTable.setFillsViewportHeight(true);
+                dateSelectPostScroll.setViewportView(rsTable);
+
+                jp7.revalidate();
+                jp7.repaint();
+
+                JOptionPane.showOptionDialog(this, "Got data", "Database Notice",
+                        -1, 1, null, null, null);
+
+
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            } finally {
+                db.CloseRS();
+                db.CloseStmt();
+                db.CloseConnection();
             }
         }
     }

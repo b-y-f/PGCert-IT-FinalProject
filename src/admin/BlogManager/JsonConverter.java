@@ -47,7 +47,7 @@ public class JsonConverter {
         }
     }
 
-//    ====
+
 
     protected ArrayList<Map<String, Object>> getEntitiesFromResultSet(ResultSet resultSet) throws SQLException {
         ArrayList<Map<String, Object>> entities = new ArrayList<>();
