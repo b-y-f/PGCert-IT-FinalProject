@@ -20,10 +20,10 @@
         <label for="inputPassword" class="visually-hidden">Password</label>
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required name="password">
         <div class="checkbox m-3">
-            <label>
-<!--                TODO keep user in cookie -->
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
+            <label for="rememberMe"></label>
+            <!-- keep user in cookie -->
+            <input id="rememberMe" type="checkbox" value="checked" name="rememberMe">Remember me
+
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <p class="m-3"><a href="/signup">Sign up</a></p>

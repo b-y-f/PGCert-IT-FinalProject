@@ -1,16 +1,12 @@
 package admin.BlogManager;
 
 import admin.BlogManager.resetPassword.SendEmail;
-
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import java.io.File;
 import java.sql.ResultSet;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -38,8 +34,6 @@ public class MySQLGUI extends JFrame implements MouseListener {
     private JFormattedTextField insertDobText , jp7FromText, jp7ToText ;
     private ResultSetTable rsTable;
 
-
-    private JTextArea QueryRecordResult,queryPostsResult;
 
     private OperationMariadb db = null;
     private JScrollPane scroll = null , dateSelectPostScroll = null;
@@ -142,7 +136,6 @@ public class MySQLGUI extends JFrame implements MouseListener {
         jp7QueryPostsBtn.setBounds(100, 200, 100, 45);
 
 
-        initial();
     }
 
     private void setLabel() {
@@ -268,12 +261,12 @@ public class MySQLGUI extends JFrame implements MouseListener {
         //tag 3
 
 
-        QueryRecordResult = new JTextArea("Result：");
-        QueryRecordResult.setFont(new Font("Dialog", 1, 20));
+        JTextArea queryRecordResult = new JTextArea("Result：");
+        queryRecordResult.setFont(new Font("Dialog", 1, 20));
 
-        QueryRecordResult.setEditable(false);
-        QueryRecordResult.setLineWrap(true);
-        scroll = new JScrollPane(QueryRecordResult);
+        queryRecordResult.setEditable(false);
+        queryRecordResult.setLineWrap(true);
+        scroll = new JScrollPane(queryRecordResult);
         scroll.setBounds(30, 30, 560, 260);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -298,7 +291,7 @@ public class MySQLGUI extends JFrame implements MouseListener {
         jp7ToText.setBounds(100, 140, 220, 35);
         jp7ToText.setValue(new Date());
 
-        queryPostsResult = new JTextArea("Result：");
+        JTextArea queryPostsResult = new JTextArea("Result：");
         queryPostsResult.setFont(new Font("Dialog", 1, 20));
         queryPostsResult.setEditable(false);
         queryPostsResult.setLineWrap(true);
@@ -394,8 +387,6 @@ public class MySQLGUI extends JFrame implements MouseListener {
         jp7.add(dateSelectPostScroll);
 
 
-
-
     }
 
     private void setBase() {
@@ -467,16 +458,17 @@ public class MySQLGUI extends JFrame implements MouseListener {
             String inPassword = insertPasswordText.getText();
             //convert to hashed passwrd
             String passwordHashed = BCrypt.hashpw(inPassword, BCrypt.gensalt(10));
-
-
             String inNickname = insertNicknameText.getText();
             String inDob = insertDobText.getText();
             String inDescription = insertDiscretionText.getText();
             String inEmail = insertEmailText.getText();
+
+
             try {
+                java.sql.Date sqlDob = new java.sql.Date(dateFormat.parse(inDob).getTime());
                 db.setRs(db.executeQuery());
                 if (db.getRs().next()) {
-                    db.executeInsert(inUsername, passwordHashed, inNickname, inDob, inDescription, inEmail);
+                    db.executeInsert(inUsername, passwordHashed, inNickname, sqlDob, inDescription, inEmail);
                     JOptionPane.showOptionDialog(this, "Added Successful！", "Database Notice",
                             JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
                 } else JOptionPane.showOptionDialog(this, "Add failed", "Database Notice",
@@ -699,6 +691,8 @@ public class MySQLGUI extends JFrame implements MouseListener {
                 File fc = new MyFileChooser().getFile();
                 if (fc!=null){
                     new JsonConverter().importFromJson(fc);
+                    JOptionPane.showOptionDialog(this, "Json converted and will print in console!", "Export Notice",
+                            -1, 1, null, null, null);
                 }
 
             } catch (Exception e1) {

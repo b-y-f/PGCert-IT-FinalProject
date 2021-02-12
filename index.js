@@ -32,11 +32,25 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 // Setup routes
+
+// if use cookie to login
+
+// app.use(function(req, res, next) {
+//     var url = req.url;
+//     if (url !== '/login' && !req.signedCookies.user && url !== '/' && url!=='/resetPwd' && url!=='/fulltext') {
+//         res.redirect('/login')
+//         return
+//     }
+//     next();
+// });
+
 app.use(require("./routes/user-manager-routers.js"));
 app.use(require("./routes/home-routers.js"));
 app.use(require("./routes/post-manager-routers.js"));
 app.use(require("./routes/fulltext-routers.js"));
 app.use(require("./routes/comment-reply-routers.js"));
+
+
 
 app.listen(port, () => {
     console.log(`App listening on port ${port}`)

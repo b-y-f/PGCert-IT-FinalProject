@@ -31,10 +31,14 @@ router.post("/login", async function (req, res) {
 
     const username = req.body.username;
     const password = req.body.password;
+    const rememberMe = req.body.rememberMe;
 
     const user = await userDao.retrieveUserWithCredentials(username, password);
 
     if (user) {
+        if(rememberMe==="checked"){
+            res.cookie("user", req.body.username, {maxAge: 1000*60*60*24 ,httpOnly: false,signed:true});
+        }
         req.session.user = user;
         res.redirect("/?message=Login Successfully!");
     } else {
@@ -47,6 +51,7 @@ router.post("/login", async function (req, res) {
 
 router.get("/logout", function (req, res) {
 
+    res.clearCookie('user');
     delete req.session.destroy(err => {
         res.redirect("./?message=Successfully logged out!");
     });

@@ -84,14 +84,14 @@ public class OperationMariadb {
     }
 
     // add user
-    void executeInsert(String username, String password, String nickname, String dob, String description, String email) throws Exception {
+    void executeInsert(String username, String password, String nickname, Date dob, String description, String email) throws Exception {
         try {
             conn = createConnection(getDburl(), getUsername(), getPassword());
             stmt = conn.prepareStatement("insert into userinfo(username,password,name, dob, description, email) values(?,?,?,?,?,?)");
             stmt.setString(1, username);
             stmt.setString(2, password);
             stmt.setString(3, nickname);
-            stmt.setString(4, dob);
+            stmt.setDate(4, dob);
             stmt.setString(5, description);
             stmt.setString(6, email);
             stmt.executeUpdate();
