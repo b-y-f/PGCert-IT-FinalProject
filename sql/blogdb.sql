@@ -78,3 +78,4 @@ create table if not exists comment_reply
 # select u.username, c.created_at,c.content,u.avatar, c.post_id, c.poster_id, c.id as 'commentId'  from userinfo as u, post_comment as c where c.poster_id = u.id and c.post_id = 1 order by c.created_at desc
 
 
+# select email from userinfo where username = 'byf'

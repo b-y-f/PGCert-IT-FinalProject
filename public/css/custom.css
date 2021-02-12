@@ -1,3 +1,8 @@
+/*work with read more.....*/
+.blogContents{
+    overflow:hidden
+}
+
 /*for Login/signup*/
 .form-sign {
     width: 100%;
@@ -162,4 +167,7 @@ a {
 #editor-container{
     height: 480px;
 }
+
+
+
 

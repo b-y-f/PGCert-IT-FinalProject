@@ -1,5 +1,7 @@
-<div class="home-page container rounded">
+<script src="/js/readmore.js"></script>
 
+
+<div class="home-page container rounded xxx">
     {{#if message}}
         <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
             <p>{{message}}</p>
@@ -13,16 +15,16 @@
                 <!--    click into full text-->
                 <h1 class=""><a class="text-dark text-decoration-none" href="/fulltext?id={{id}}">{{title}}</a></h1>
 
-                <div id="blogContent">
+                <div id="blogContent" class="blogContents">
                     {{{content}}}
                 </div>
             </div>
         {{/if}}
 
-
-
     {{/each}}
-
-
-
 </div>
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $('.blogContents').readmore({});
+    });
+</script>

@@ -1,3 +1,6 @@
+<script type="text/javascript" src="/js/checkPassword.js"></script>
+<script type="module" src="/js/checkUsername.js"></script>
+
 <div class="signup-page mt-3">
 
     <form class="form-sign text-center bg-light rounded" action="/signup" method="POST">
@@ -10,28 +13,6 @@
             <div id="feedbackUsername" class="invalid-feedback">Username has been used</div>
         </div>
 
-        <script>
-            $(document).ready(function () {
-                $("#username").keyup(function () {
-                    var username = $("#username").val().trim();
-                    if (username !== '') {
-                        $.ajax({
-                            url: '/signup',
-                            type: 'post',
-                            data: {username: username},
-                            success: function (response) {
-                                // alert(response)
-                                $('#username').removeClass('is-invalid');
-                            },
-                            error: function (respnse){
-                                $('#username').addClass('is-invalid');
-                            }
-                        });
-                    }
-                });
-            });
-        </script>
-
 
         <div class="mb-3">
             <label for="inputPassword" class="form-label">Password</label>
@@ -42,23 +23,9 @@
         <div class="mb-3">
             <label for="reInputPassword" class="form-label">Re-Enter Password</label>
             <input type="password" class="form-control" id="reInputPassword" required onkeyup='check();'>
-            <div id="notSamePassword" class="invalid-feedback">33</div>
+            <div id="notSamePassword" class="invalid-feedback">Woops, password not match...</div>
         </div>
 
-
-        <script>
-            let check = function () {
-                if (document.getElementById('inputPassword').value ===
-                        document.getElementById('reInputPassword').value) {
-                    document.getElementById('reInputPassword').className = 'form-control  is-valid';
-                    document.getElementById('inputPassword').className = 'form-control  is-valid';
-                } else {
-                    document.getElementById('reInputPassword').className = 'form-control  is-invalid';
-                    document.getElementById('inputPassword').className = 'form-control  is-invalid';
-                    document.getElementById('notSamePassword').innerText = 'Woops, password not match...'
-                }
-            }
-        </script>
 
 
         <!--  better form of date selection -->

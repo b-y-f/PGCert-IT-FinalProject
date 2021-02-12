@@ -1,32 +1,35 @@
 package admin.BlogManager;
 
+import admin.BlogManager.resetPassword.SendEmail;
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import java.security.SecureRandom;
+import java.io.File;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.util.Date;
 
 
-public class MySQLGUI extends JFrame implements MouseListener, ItemListener {
+public class MySQLGUI extends JFrame implements MouseListener {
 
     private JTabbedPane Base;
-    private JPanel jp1, jp2, jp3, jp4, jp5;
+    private JPanel jp1, jp2, jp3, jp4, jp5,jp6;
 
     // set buttons
     private JButton InsertRecord, InsertReset, DeleteRecord, DeleteReset,
-            queryPosts, UpdateRecord, UpdateReset, hidePostBtn,showPostBtn;
+            queryPosts, UpdateRecord, UpdateReset,
+            hidePostBtn, showPostBtn,
+            getEmailByUsernameBtn, resetPasswordBtn,
+            getPostJsonBtn, getCommentJsonBtn, importJsonBtn;
 
     private JLabel insertUsername, insertPassword, insertNickname, insertDob, insertDiscretion,
-            insertEmail, DeleteID1, UpdateID1;
+            insertEmail, DeleteID1, UpdateID1, jp5UsernameLabel, jp5EmailLabel;
 
     private JTextField insertUsernameText, insertPasswordText, insertNicknameText, insertDiscretionText, insertEmailText,
-            DeleteID2, UpdateID2, UpdateContent;
+            DeleteID2, UpdateID2, UpdateContent, inputUsername, inputEmail;
 
     private JFormattedTextField insertDobText;
     private ResultSetTable rsTable;
@@ -36,9 +39,7 @@ public class MySQLGUI extends JFrame implements MouseListener, ItemListener {
 
     private OperationMariadb db = null;
     private JScrollPane scroll = null;
-    private JScrollPane CourseScroll = null;
     private JComboBox<String> UpdateItem = null;
-    private JComboBox<String> CourseItem = null;
 
     MySQLGUI() {
         setButton();
@@ -99,6 +100,37 @@ public class MySQLGUI extends JFrame implements MouseListener, ItemListener {
         showPostBtn.setBackground(Color.CYAN);
         showPostBtn.setBounds(600, 400, 150, 45);
 
+        //5 btn
+        getEmailByUsernameBtn = new JButton("Get Email");
+        getEmailByUsernameBtn.setFont(new Font("Serif", 1, 20));
+        getEmailByUsernameBtn.setBackground(Color.CYAN);
+        getEmailByUsernameBtn.setBounds(600, 30, 150, 45);
+
+        resetPasswordBtn = new JButton("Reset Password");
+        resetPasswordBtn.setFont(new Font("Serif", 1, 16));
+        resetPasswordBtn.setBackground(Color.CYAN);
+        resetPasswordBtn.setBounds(600, 90, 150, 45);
+
+        //6 btn
+        getPostJsonBtn = new JButton("post => json");
+        getPostJsonBtn.setFont(new Font("Serif", 0, 20));
+        getPostJsonBtn.setBackground(Color.orange);
+        getPostJsonBtn.setBounds(250, 30, 200, 45);
+
+        getCommentJsonBtn = new JButton("comment => json");
+        getCommentJsonBtn.setFont(new Font("Serif", 0, 20));
+        getCommentJsonBtn.setBackground(Color.orange);
+        getCommentJsonBtn.setBounds(250, 90, 200, 45);
+
+        importJsonBtn = new JButton("import");
+        importJsonBtn.setFont(new Font("Serif", 0, 20));
+        importJsonBtn.setBackground(Color.PINK);
+        importJsonBtn.setBounds(250, 150, 200, 45);
+
+        //7 btn
+
+
+
         initial();
     }
 
@@ -157,12 +189,15 @@ public class MySQLGUI extends JFrame implements MouseListener, ItemListener {
 
 
         // jp5 label
-        CourseItem = new JComboBox<>();
-        CourseItem.setFont(new Font("Dialog", 1, 22));
-        CourseItem.setBounds(100, 40, 140, 45);
-        CourseItem.addItem("xx");
-        CourseItem.addItem("xx");
-        CourseItem.addItem("xx");
+        jp5UsernameLabel = new JLabel("Username: ");
+        jp5UsernameLabel.setFont(new Font("Dialog", 1, 20));
+        jp5UsernameLabel.setBackground(Color.GREEN);
+        jp5UsernameLabel.setBounds(80, 25, 150, 50);
+
+        jp5EmailLabel = new JLabel("Email: ");
+        jp5EmailLabel.setFont(new Font("Dialog", 1, 20));
+        jp5EmailLabel.setBackground(Color.GREEN);
+        jp5EmailLabel.setBounds(80, 85, 150, 50);
 
     }
 
@@ -225,6 +260,15 @@ public class MySQLGUI extends JFrame implements MouseListener, ItemListener {
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
+        //tag 5
+        inputUsername = new JTextField();
+        inputUsername.setFont(new Font("Serif", 1, 18));
+        inputUsername.setBounds(210, 30, 250, 35);
+
+        inputEmail = new JTextField();
+        inputEmail.setFont(new Font("Serif", 1, 18));
+        inputEmail.setBounds(210, 90, 250, 35);
+
 
     }
 
@@ -234,6 +278,7 @@ public class MySQLGUI extends JFrame implements MouseListener, ItemListener {
         jp3 = new JPanel();
         jp4 = new JPanel();
         jp5 = new JPanel();
+        jp6 = new JPanel();
     }
 
     private void setLayout() {
@@ -282,6 +327,21 @@ public class MySQLGUI extends JFrame implements MouseListener, ItemListener {
         jp4.add(hidePostBtn);
         jp4.add(showPostBtn);
 
+        //jp5
+        jp5.setLayout(null);
+        jp5.add(jp5UsernameLabel);
+        jp5.add(inputUsername);
+
+        jp5.add(jp5EmailLabel);
+        jp5.add(inputEmail);
+
+        jp5.add(getEmailByUsernameBtn);
+        jp5.add(resetPasswordBtn);
+
+        jp6.setLayout(null);
+        jp6.add(getPostJsonBtn);
+        jp6.add(getCommentJsonBtn);
+        jp6.add(importJsonBtn);
 
     }
 
@@ -292,6 +352,7 @@ public class MySQLGUI extends JFrame implements MouseListener, ItemListener {
         Base.addTab("Update User", jp3);
         Base.addTab("Article Hide", jp4);
         Base.addTab("Reset Password", jp5);
+        Base.addTab("Export to Json",jp6);
     }
 
     private void setThis() {
@@ -325,6 +386,13 @@ public class MySQLGUI extends JFrame implements MouseListener, ItemListener {
         hidePostBtn.addMouseListener(this);
         showPostBtn.addMouseListener(this);
 
+        getEmailByUsernameBtn.addMouseListener(this);
+        resetPasswordBtn.addMouseListener(this);
+
+        getPostJsonBtn.addMouseListener(this);
+        getCommentJsonBtn.addMouseListener(this);
+
+        importJsonBtn.addMouseListener(this);
     }
 
     @Override
@@ -431,7 +499,7 @@ public class MySQLGUI extends JFrame implements MouseListener, ItemListener {
                     jp4.remove(rsTable);
 
                 }
-                db.setRs(db.getAllposts());
+                db.setRs(db.getAllPosts());
 
                 rsTable = new ResultSetTable(db.getRs());
                 rsTable.setFillsViewportHeight(true);
@@ -480,7 +548,7 @@ public class MySQLGUI extends JFrame implements MouseListener, ItemListener {
                 db.CloseStmt();
                 db.CloseConnection();
             }
-        }else if (e.getSource().equals(showPostBtn)) {
+        } else if (e.getSource().equals(showPostBtn)) {
             try {
                 for (int i = 0; i < rsTable.getRowCount(); i++) {
                     boolean isChecked = Boolean.parseBoolean(rsTable.getValueAt(i, 6).toString());
@@ -506,6 +574,80 @@ public class MySQLGUI extends JFrame implements MouseListener, ItemListener {
                 db.CloseStmt();
                 db.CloseConnection();
             }
+        } else if (e.getSource().equals(getEmailByUsernameBtn)) {
+            try {
+                ResultSet emailRs = db.getEmailByUsername(inputUsername.getText());
+
+                if (emailRs.next()) {
+                    String email = emailRs.getString("email");
+                    inputEmail.setText(email);
+                } else {
+                    JOptionPane.showOptionDialog(this, "Fail, wrong username!", "Database Notice",
+                            -1, 1, null, null, null);
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            } finally {
+                db.CloseRS();
+                db.CloseStmt();
+                db.CloseConnection();
+            }
+        }else if (e.getSource().equals(resetPasswordBtn)) {
+            try {
+                String receiver = inputEmail.getText();
+                String receiverUsername = inputUsername.getText();
+                SendEmail resetEmail = new SendEmail(receiver);
+                resetEmail.send(receiverUsername);
+
+
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            } finally {
+                db.CloseRS();
+                db.CloseStmt();
+                db.CloseConnection();
+            }
+        }else if (e.getSource().equals(getPostJsonBtn)) {
+            try {
+                ResultSet posts = db.getAllPosts();
+                JsonConverter jc = new JsonConverter();
+                jc.exportToJson("post",posts);
+                JOptionPane.showOptionDialog(this, "Good,file can be found in post-files folder!", "Export Notice",
+                        -1, 1, null, null, null);
+
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            } finally {
+                db.CloseRS();
+                db.CloseStmt();
+                db.CloseConnection();
+            }
+        }else if (e.getSource().equals(getCommentJsonBtn)) {
+            try {
+                ResultSet comments = db.getAllComments();
+                JsonConverter jc = new JsonConverter();
+                jc.exportToJson("comments",comments);
+                JOptionPane.showOptionDialog(this, "Good,file can be found in post-files folder!", "Export Notice",
+                        -1, 1, null, null, null);
+
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            } finally {
+                db.CloseRS();
+                db.CloseStmt();
+                db.CloseConnection();
+            }
+        }else if (e.getSource().equals(importJsonBtn)) {
+            try {
+
+                File fc = new MyFileChooser().getFile();
+                if (fc!=null){
+                    new JsonConverter().importFromJson(fc);
+                }
+
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
@@ -529,9 +671,5 @@ public class MySQLGUI extends JFrame implements MouseListener, ItemListener {
 
     }
 
-    @Override
-    public void itemStateChanged(ItemEvent e) {
-
-    }
 
 }

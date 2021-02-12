@@ -78,6 +78,15 @@ async function userCount(username) {
 
 }
 
+async function resetPwd(username, password){
+
+    const db = await database;
+
+    let hashedPwd = bcrypt.hashSync(password, saltRounds);
+
+    await db.query("update userinfo set password = ? where username = ?",[hashedPwd, username])
+}
+
 
 module.exports = {
     createUser,
@@ -86,5 +95,6 @@ module.exports = {
     retrieveAllUsers,
     getAvatarById,
     addMoreUserInfo,
-    userCount
+    userCount,
+    resetPwd
 };

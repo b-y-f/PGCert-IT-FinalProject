@@ -39,7 +39,7 @@ router.post("/login", async function (req, res) {
         res.redirect("/?message=Login Successfully!");
     } else {
         // Passwords don't match
-        res.redirect("./login?message=Authentication failed!&status=bg-warning");
+        res.redirect("./login?message=Authentication failed!&status=alert-warning");
     }
 
 
@@ -71,7 +71,7 @@ router.post("/signup", async (req, res) => {
         };
 
         await userDao.createUser(user);
-        res.redirect("./login?message=Account created successfully!&status=bg-primary");
+        res.redirect("./login?message=Account created successfully!&status=alert-success");
     } else {
 
         //fix bug Unhandled promise rejection.
@@ -154,6 +154,24 @@ router.post("/delete-account", async (req, res) => {
     await userDao.deleteUser(req.body.id);
     req.session.destroy();
     res.send('done');
+});
+
+router.get("/resetPwd", (req, res) => {
+    res.locals.username = req.query.sc;
+
+    res.render("resetPwd");
+});
+
+router.post("/resetPwd", async (req, res) => {
+    const passWrd = req.body.password;
+    const username = req.body.username;
+    await userDao.resetPwd(username,passWrd);
+
+
+    res.redirect("/login?message=Successfully reset password!&status=alert-success");
+
+    //TODO decode
+
 })
 
 

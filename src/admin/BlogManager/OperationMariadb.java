@@ -127,7 +127,7 @@ public class OperationMariadb {
     }
 
 
-    ResultSet getAllposts() throws Exception {
+    ResultSet getAllPosts() throws Exception {
         try {
             String sql = "select * from post";
             conn = createConnection(getDburl(), getUsername(), getPassword());
@@ -138,6 +138,20 @@ public class OperationMariadb {
         }
         return rs;
     }
+
+    ResultSet getAllComments() throws Exception {
+        try {
+            String sql = "select * from post_comment";
+            conn = createConnection(getDburl(), getUsername(), getPassword());
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return rs;
+    }
+
+
 
     ResultSet findUserById(int id) throws Exception {
         try {
@@ -151,6 +165,21 @@ public class OperationMariadb {
         }
         return rs;
     }
+
+
+    ResultSet getEmailByUsername(String username) throws Exception {
+        try {
+            String sql = "select email from userinfo where username = ?";
+            conn = createConnection(getDburl(), getUsername(), getPassword());
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, username);
+            rs = stmt.executeQuery();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return rs;
+    }
+
 
     void executeUpdate(int UpdateID, String UpdateItem, String UpdateContent) throws Exception {
         try {
@@ -190,8 +219,6 @@ public class OperationMariadb {
             System.err.println(e.getMessage());
         }
     }
-
-
 
 
 }

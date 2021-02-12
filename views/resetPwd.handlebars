@@ -1,0 +1,23 @@
+<script type="text/javascript" src="/js/checkPassword.js"></script>
+
+<div class="mb-3">
+    <form class="form-sign text-center bg-light rounded" action="/resetPwd" method="post">
+        <h1 class="h3 mb-5 font-weight-normal">Set your new password</h1>
+
+
+        <div class="mb-3">
+            <input type="hidden" value="{{username}}" name="username">
+            <label for="password" class="visually-hidden"></label>
+            <input type="text" id="inputPassword" class="form-control" placeholder="Password" required autofocus
+                   name="password">
+        </div>
+
+        <label for="re-password" class="visually-hidden"></label>
+        <input type="password" id="reInputPassword" class="form-control" placeholder="Re-Password" required name="password2" onkeyup='check()'>
+
+        <div id="notSamePassword" class="invalid-feedback">Woops, password not match...</div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        <p class="mt-5 mb-3 text-muted">&copy; Blog</p>
+    </form>
+</div>
