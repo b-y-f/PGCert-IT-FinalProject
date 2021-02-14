@@ -31,9 +31,12 @@ public class Login implements ActionListener {
         try(BufferedReader br = new BufferedReader (new FileReader("user.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] a = line.split(",");
-                userName.setText(a[0]);
-                passWord.setText(a[1]);
+                if(!line.equals("") && !line.equals(",")){
+                    String[] a = line.split(",");
+                    userName.setText(a[0]);
+                    passWord.setText(a[1]);
+                }
+
             }
         } catch (IOException e1) {
             e1.printStackTrace();

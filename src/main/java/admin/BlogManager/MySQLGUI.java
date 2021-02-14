@@ -645,7 +645,8 @@ public class MySQLGUI extends JFrame implements MouseListener {
                 String receiver = inputEmail.getText();
                 String receiverUsername = inputUsername.getText();
                 SendEmail resetEmail = new SendEmail(receiver);
-                resetEmail.send(receiverUsername);
+                resetEmail.setResetLink(receiverUsername);
+                resetEmail.send();
 
 
             } catch (Exception e1) {

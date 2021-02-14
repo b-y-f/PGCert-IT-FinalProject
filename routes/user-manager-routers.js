@@ -36,8 +36,8 @@ router.post("/login", async function (req, res) {
     const user = await userDao.retrieveUserWithCredentials(username, password);
 
     if (user) {
-        if(rememberMe==="checked"){
-            res.cookie("user", req.body.username, {maxAge: 1000*60*60*24 ,httpOnly: false,signed:true});
+        if (rememberMe === "checked") {
+            res.cookie("user", req.body.username, {maxAge: 1000 * 60 * 60 * 24, httpOnly: false, signed: true});
         }
         req.session.user = user;
         res.redirect("/?message=Login Successfully!");
@@ -170,12 +170,16 @@ router.get("/resetPwd", (req, res) => {
 router.post("/resetPwd", async (req, res) => {
     const passWrd = req.body.password;
     const username = req.body.username;
-    await userDao.resetPwd(username,passWrd);
 
-
-    res.redirect("/login?message=Successfully reset password!&status=alert-success");
-
-    //TODO decode
+    //decode username
+    const jwt = require('jsonwebtoken');
+    var decoded = jwt.decode(username);
+    if (decoded.exp > Math.floor(Date.now() / 1000)) {
+        await userDao.resetPwd(decoded.sub, passWrd);
+        res.redirect("/login?message=Successfully reset password!&status=alert-success");
+    } else {
+        res.redirect("/login?message=This url has expired, please try again.&status=alert-warning");
+    }
 
 })
 
