@@ -59,9 +59,9 @@
             quill.setContents(JSON.parse(ec.text()), 'silent');
         }
 
-        const form = document.querySelector("form");
-        form.onsubmit = function () {
+        const form = document.querySelector("#subblog");
 
+        form.onsubmit = function () {
             var content = document.querySelector('input[name=postContent]');
             content.value = JSON.stringify(quill.getContents());
             return true;
@@ -76,7 +76,7 @@
 
     <!-- make picture upload work -->
     <div id="form-container" class="container">
-        <form action="/{{editpost}}" method="post">
+        <form id="subblog" action="/{{editpost}}" method="post">
 
             <div class="row form-group">
                 <label for="title" class="form-label">Title</label>
@@ -99,9 +99,6 @@
         </form>
     </div>
 
-
-    <!--     Initialize Quill editor and submit form-->
-    <script type="module" src="/js/quill-editor.js"></script>
 
 
 </div>

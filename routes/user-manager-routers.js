@@ -172,8 +172,11 @@ router.post("/resetPwd", async (req, res) => {
     const username = req.body.username;
 
     //decode username
+
     const jwt = require('jsonwebtoken');
+
     var decoded = jwt.decode(username);
+    // console.log(decoded);
     if (decoded.exp > Math.floor(Date.now() / 1000)) {
         await userDao.resetPwd(decoded.sub, passWrd);
         res.redirect("/login?message=Successfully reset password!&status=alert-success");

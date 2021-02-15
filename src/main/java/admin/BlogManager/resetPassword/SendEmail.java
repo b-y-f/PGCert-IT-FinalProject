@@ -11,8 +11,7 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+
 import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;

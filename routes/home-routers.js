@@ -49,9 +49,23 @@ router.post('/', verifyAuthenticated, async (req, res) => {
         authorId: req.session.user.id,
     };
 
-    // console.log(req.body.postContent)
 
     await postDao.postBlog(post);
+
+    //TODO index Elasticsearch
+    // const { Client } = require('@elastic/elasticsearch');
+    // const client = new Client({node: 'http://localhost:9200'});
+    //
+    // client.index({
+    //     index: 'posts',
+    //     refresh: true,
+    //     body: {
+    //         "authorUsername": res.locals.isValidUser.username,
+    //         "title": req.body.title,
+    //         "content": res.locals.content,
+    //     }
+    // });
+
     res.redirect('/?message=Post Successfully!');
 
 });
