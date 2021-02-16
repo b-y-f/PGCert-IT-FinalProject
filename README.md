@@ -23,4 +23,13 @@
 - Any other instructions / comments you wish to make to your markers.
   - no
 
+---
+#### made search available with elastic search
+
+Before use have to start a elastic [server]([https://www.elastic.co/downloads/elasticsearch]) and post new posts to test that
+- search content
+![search](https://i.imgur.com/WEz94fH.png)
+- search author  
+![searchWithUser](https://i.imgur.com/nrecWiN.png)
+
 

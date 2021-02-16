@@ -3,10 +3,16 @@ const database = require("./database.js");
 async function postBlog(post){
     const db = await database;
 
-    const result = await db.query(
+    await db.query(
         "insert into post (authorId,title,created_at,content) value (?,?,now() + INTERVAL 13 HOUR ,?);",
         [post.authorId, post.title, post.content]
     );
+
+    //return a post id to make search result link to fulltext
+    const postId = await db.query(
+        "select id from post where id = LAST_INSERT_ID(); "
+    )
+    return postId[0];
 
 }
 

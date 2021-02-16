@@ -1,3 +1,75 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+
+
 <div>
-    Search result for {{k}} is:
+    <h1>Search result for {{keyword}} is:</h1>
+
+    <table id="searchResult" class="display">
+        <thead>
+        <tr>
+            <th>Author Name</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Created At</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {{#each results}}
+            <!-- TODO get post id to href-->
+            <tr data-href="#">
+                <td>
+                    {{#if highlight.authorUsername}}
+                        {{#each highlight.authorUsername}}
+                            {{{this}}}
+                        {{/each}}
+                    {{else}}
+                        {{_source.authorUsername}}
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if highlight.title}}
+                        {{#each highlight.title}}
+                            {{{this}}}
+                        {{/each}}
+                    {{else}}
+                        {{_source.title}}
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if highlight.content}}
+                        {{#each highlight.content}}
+                            {{{this}}}
+                        {{/each}}
+                    {{else}}
+                        {{_source.content}}
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if highlight.create_time}}
+                        {{#each highlight.create_time}}
+                            {{{this}}}
+                        {{/each}}
+                    {{else}}
+                        {{_source.create_time}}
+                    {{/if}}
+                </td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+
+
 </div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#searchResult').DataTable();
+        $('#searchResult tr').click(function () {
+            window.location = $(this).data('href');
+            return false;
+        });
+    });
+</script>

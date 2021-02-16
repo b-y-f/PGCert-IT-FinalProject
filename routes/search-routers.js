@@ -1,29 +1,41 @@
 const express = require("express");
 const router = express.Router();
 
-const { Client } = require('@elastic/elasticsearch');
+const {Client} = require('@elastic/elasticsearch');
 const client = new Client({node: 'http://localhost:9200'});
 
-router.get("/search",(req, res) => {
+router.get("/search", async (req, res) => {
 
-// elasticsearch init
+    // elasticsearch init
 
+    await client.indices.refresh({index: 'posts'})
 
-    res.locals.k = req.query.search;
-    const result = client.search({
-        q: req.params.keyword,
+    res.locals.keyword = req.query.search;
+    const {body} = await client.search({
         index: 'posts',
-        size: 20
-    }).then(function (body) {
-        var hits = body.hits.hits
-        res.send(hits)
-    }, function (error) {
-        console.trace(error.message)
+        body: {
+            query: {
+                multi_match :{
+                    query: res.locals.keyword,
+                    fields: ["authorUsername", "title", "content", "create_time"],
+                    fuzziness: "AUTO"
+                }
+            },
+            highlight: {
+                fields: {
+                    "*": {"pre_tags" : ["<em class='text-warning fw-bold'>"], "post_tags" : ["</em>"] }
+                }
+            }
+        }
+    }).catch(err => {
+        console.log(err);
     });
+    // console.log(body.hits.hits);
+    res.locals.results = body.hits.hits;
+
 
     res.render("search-results");
 });
-
 
 
 module.exports = router;

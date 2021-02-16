@@ -168,6 +168,10 @@ a {
     height: 480px;
 }
 
+/*search table add row clickable cursor*/
+#searchResult tr[data-href] {
+    cursor: pointer;
+}
 
 
 

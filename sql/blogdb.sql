@@ -35,10 +35,10 @@ create table if not exists post
 
 );
 
-insert into post(authorId, title, created_at, editted_at, content,visible)
-    value
-    (1, 'dqwe', '1990-05-07', '2020-01-01', 'bb',true),
-    (1, 'Test', '1990-05-20', '2015-05-07', 'I''m b',false);
+# insert into post(authorId, title, created_at, editted_at, content,visible)
+#     value
+#     (1, 'InitPost1', '1990-05-07', '2020-01-01', 'bb',true),
+#     (1, 'InitPost1', '1990-05-20', '2015-05-07', 'I''m b',false);
 
 create table if not exists post_comment
 (
@@ -51,10 +51,10 @@ create table if not exists post_comment
 );
 
 
-insert into post_comment(post_id, poster_id, created_at, content)
-    value
-    (1, 1, '2020-08-08', 'this is a commend content'),
-    (1, 2, '2020-08-08', 'test comment');
+# insert into post_comment(post_id, poster_id, created_at, content)
+#     value
+#     (1, 1, '2020-08-08', 'this is a commend content'),
+#     (1, 2, '2020-08-08', 'test comment');
 
 create table if not exists comment_reply
 (
