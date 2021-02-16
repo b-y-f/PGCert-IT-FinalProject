@@ -26,7 +26,7 @@
 ---
 #### made search available with elastic search
 
-Before use have to start a elastic [server]([https://www.elastic.co/downloads/elasticsearch]) and post new posts to test that
+Before use have to start a elastic [server](https://www.elastic.co/downloads/elasticsearch) and post new posts to test that
 - search content
 ![search](https://i.imgur.com/WEz94fH.png)
 - search author  
