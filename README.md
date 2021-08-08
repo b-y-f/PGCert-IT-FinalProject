@@ -1,5 +1,9 @@
+# Cannot be shown in sandbox since access to uni database expired :(
+
 # Group 3
 
+**start**
+```node index.js```
 
 # PGCertIT Final Project - A Personal Blogging System
 
